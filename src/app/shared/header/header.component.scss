@@ -1,0 +1,21 @@
+@import './../../core/global.scss';
+
+nav {
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 90%;
+    margin: 2% auto;
+    z-index: 1;
+    .banner {
+      border-radius: 20px;
+      border: 1px solid lightgrey;
+      background-color: white;
+    }
+    app-flux-box {
+      width: 100%;
+    }
+  }
+}

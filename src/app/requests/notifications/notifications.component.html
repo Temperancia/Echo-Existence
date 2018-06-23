@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<div class="container-fluid content">
+  <app-header></app-header>
+  <div class="row">
+    <div class="col-3">
+      Friend requests
+      <button [ngClass]="displayedNotifications.friendRequestsSent ? 'btn-others' : ''"
+      (click)="toggle('friendRequestsSent')">Sent</button>
+      <button [ngClass]="displayedNotifications.friendRequestsReceived ? 'btn-others' : ''"
+      (click)="toggle('friendRequestsReceived')">Received</button>
+    </div>
+    <div class="col-3">
+      Trust requests
+      <button [ngClass]="displayedNotifications.trustRequestsSent ? 'btn-others' : ''"
+      (click)="toggle('trustRequestsSent')">Sent</button>
+      <button [ngClass]="displayedNotifications.trustRequestsReceived ? 'btn-others' : ''"
+      (click)="toggle('trustRequestsReceived')">Received</button>
+    </div>
+    <div class="col-3">
+      Trust invitations
+      <button [ngClass]="displayedNotifications.trustInvitationsSent ? 'btn-others' : ''"
+      (click)="toggle('trustInvitationsSent')">Sent</button>
+      <button [ngClass]="displayedNotifications.trustInvitationsReceived ? 'btn-others' : ''"
+      (click)="toggle('trustInvitationsReceived')">Received</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      Your requests
+    </div>
+  </div>
+  <div class="row">
+    <div [ngClass]="getRequestsClass()">
+      <div *ngFor="let request of requests" style="border: 1px solid black;">
+        <div *ngIf="request.type === 'friendRequestSent' && displayedNotifications.friendRequestsSent">
+          Friend request sent :
+          {{request.firstName}} {{request.lastName}}
+          <button (click)="cancelFriendRequest(request)">-</button>
+        </div>
+        <div *ngIf="request.type === 'friendRequestReceived' && displayedNotifications.friendRequestsReceived">
+          Friend request received :
+          {{request.firstName}} {{request.lastName}}
+          <button (click)="acceptFriendRequest(request)">+</button>
+          <button (click)="declineFriendRequest(request)">x</button>
+        </div>
+        <div *ngIf="request.type === 'trustRequestSent' && displayedNotifications.trustRequestsSent">
+          Trust request sent :
+          {{request.name}}
+          <button (click)="cancelTrustRequest(request)">-</button>
+        </div>
+        <div *ngIf="request.type === 'trustRequestReceived' && displayedNotifications.trustRequestsReceived">
+          Trust request received :
+          {{request.trust.name}} : {{request.user.firstName}} {{request.user.lastName}}
+          <button (click)="acceptTrustRequest(request)">+</button>
+          <button (click)="declineTrustRequest(request)">x</button>
+        </div>
+        <div *ngIf="request.type === 'trustInvitationSent' && displayedNotifications.trustInvitationsSent">
+          Trust invitation sent :
+          {{request.trust.name}} : {{request.firstName}} {{request.lastName}}
+        </div>
+        <div *ngIf="request.type === 'trustInvitationReceived' && displayedNotifications.trustInvitationsReceived">
+          Trust invitation received :
+          {{request.name}}
+        </div>
+      </div>
+    </div>
+    <!--
+    <div [ngClass]="getRequestsClass()" *ngIf="friendsRequests?.length !== 0">
+      <div *ngFor="let request of friendsRequests">
+        <span *ngIf="request.firstName && request.lastName">
+          {{request.firstName}} {{request.lastName}}
+        </span>
+        <span *ngIf="request.userName">
+          {{request.userName}}
+        </span>
+        <span (click)="acceptFriend(request._id)">
+          <a>+</a>
+        </span>
+      </div>
+    </div>
+  -->
+  </div>
+  <app-footer></app-footer>
+</div>

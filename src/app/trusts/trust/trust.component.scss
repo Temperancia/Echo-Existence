@@ -1,0 +1,46 @@
+* {
+  color: black;
+}
+.navbar {
+  position: fixed;
+  top: 50vh;
+  left: 10px;
+  height: 100px;
+  button {
+    width: 100%;
+  }
+}
+.feed {
+  background-color: blue;
+  .post {
+    position: relative;
+    background-color: green;
+    .reputation {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+  }
+}
+.members {
+  position: fixed;
+  top: 30vh;
+  right: 0;
+  height: 60vh;
+  background-color: yellow;
+  .member {
+    background-color: red;
+  }
+}
+.title {
+  font-family: 'Modum';
+}
+.inspiration {
+  border: solid 1px black;
+}
+.trustees {
+  border: solid 1px black;
+}
+.followers {
+  border: solid 1px black;
+}

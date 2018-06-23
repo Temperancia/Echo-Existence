@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<div class="search-box">
+  <div *ngFor="let user of users$ | async">
+    {{user.fullName}}
+    <a (click)="addFriend(user._id)" *ngIf="!user.friendWith && !user.friendRequested">+</a>
+  </div>
+</div>

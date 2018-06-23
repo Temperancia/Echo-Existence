@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<nav>
+  <div class="header">
+    <div class="row banner">
+      <div class="col-6">
+        <a (click)="toggle('navigation')">
+          <img class="w-100" src="assets/img/logo_width.png">
+        </a>
+      </div>
+      <div class="offset-3 col-3">
+        <a (click)="toggle('menu')">
+          <img class="w-100" src="assets/img/megaphone.png">
+        </a>
+      </div>
+    </div>
+    <app-navigation-box (toggle)="toggle($event)" *ngIf="this.toggles['navigation']"></app-navigation-box>
+    <app-post-box *ngIf="this.toggles['echo']" [@itemAnim]></app-post-box>
+    <app-flux-box *ngIf="this.toggles['menu']" [@itemAnim]></app-flux-box>
+  </div>
+
+
+  <!--
+  <div class="row align-items-center">
+    <div class="col-1 pr-0">
+      <a routerLink="/flux"><img class="w-100" src="assets/img/logo_width.png"></a>
+    </div>
+    <div class="col-10">
+      <div class="container">
+        <div class="row d-flex my-2 board" *ngIf="isLoggedIn">
+          <div class="col-1 align-self-center">
+            <button class="h-100 button btn-others" (click)="showFluxBox()">Feeds</button>
+            <app-flux-box *ngIf="showFlux"></app-flux-box>
+          </div>
+          <div class="col-3 align-self-center">
+            <input class="h-100 form-control" placeholder="Search" name="searchInput" [(ngModel)]="searchInput" (click)="showSearchBox();" (keyup)="search.search(searchInput);">
+            <app-search-box #search *ngIf="showSearch"></app-search-box>
+          </div>
+          <div class="col-2 align-self-center" *ngIf="!isAnonymous">
+            <button class="h-100 button btn-others" routerLink="/trusts">Trust Center</button>
+          </div>
+          <div class="col-2 align-self-center" *ngIf="!isAnonymous">
+            <button class="h-100 button btn-others" routerLink="/circles">Circles</button>
+          </div>
+          <div class="col-1 align-self-center" *ngIf="!isAnonymous">
+            <img src="assets/img/notification.png" routerLink="/notifications">
+          </div>
+          <div class="col-1 align-self-center" *ngIf="!isAnonymous">
+            <img src="assets/img/idk.png" routerLink="/my-profile">
+          </div>
+          <div class="col-1 align-self-center" *ngIf="!isAnonymous">
+            <img src="assets/img/idk2.png" (click)="showPostBox()">
+          </div>
+          <div class="col-5 d-flex align-self-center" *ngIf="isAnonymous">
+            <p class="m-0 align-self-center">
+              Want more ? Become a public echoer <a pageScroll routerLink="/login" href="#subscribe">now</a> !
+            </p>
+          </div>
+          <div class="col-1 align-self-center">
+            <img src="assets/img/wheel.png" (click)="showOptionsBox()" />
+            <app-options-box *ngIf="showOptions"></app-options-box>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+-->
+</nav>

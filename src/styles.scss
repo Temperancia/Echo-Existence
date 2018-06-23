@@ -1,0 +1,36 @@
+/* You can add global styles to this file, and also import other style files */
+@import './app/core/global.scss';
+* {
+  border-radius: 5px !important;
+}
+*:focus {
+    outline: none;
+}
+body {
+  color: black !important;
+  background-color: $trickle !important;
+  font-family: 'Roboto-Regular' !important;
+}
+.content {
+  margin-top: 20%;
+}
+button {
+  cursor: pointer;
+}
+.btn-others {
+  color: white;
+  background-color: $trickle;
+}
+
+input, button, textarea {
+  border-radius: 25px !important;
+}
+/*
+input:focus, button:focus {
+  box-shadow: 0 0 3pt 2pt $yorel;
+
+  outline: none;
+  text-decoration: none;
+  text-align: center;
+}
+*/

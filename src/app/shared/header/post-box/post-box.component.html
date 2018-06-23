@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<div class="post-box" [@itemAnim]>
+  <button type="button" (click)="emojis.show()">Emojis</button>
+  <div class="row">
+    <div class="col-3">
+      <button [ngClass]="currentFlux === flux.Tendance ? 'btn-primary' : ''" (click)="toggle(flux.Tendance);">
+        Tendance
+      </button>
+    </div>
+    <div class="col-3">
+      <button [ngClass]="currentFlux === flux.DailyLife ? 'btn-primary' : ''" (click)="toggle(flux.DailyLife);">
+        Daily Life
+      </button>
+    </div>
+    <div class="col-3">
+      <button [ngClass]="currentFlux === flux.LifeStyle ? 'btn-primary' : ''" (click)="toggle(flux.LifeStyle);">
+        Life Style
+      </button>
+    </div>
+    <div class="col-3">
+      <button [ngClass]="currentFlux === flux.Friends ? 'btn-primary' : ''" (click)="toggle(flux.Friends);">
+        Friends
+      </button>
+    </div>
+  </div>
+  <textarea class="form-control" placeholder="Say something already" [(ngModel)]="currentPost.content"></textarea>
+  <app-emojis ref-emojis class='emojis' (onEmoji)='onEmoji($event)'></app-emojis>
+  <button (click)="post(postType.Echo)">Echo</button>
+  <button (click)="post(postType.Rumour)">Rumour</button>
+  <button (click)="post(postType.Inquiry)">Inquiry</button>
+  <button (click)="post(postType.Outrage)">Outrage</button>
+</div>

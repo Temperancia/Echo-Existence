@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<div class="container-fluid content">
+  <app-header></app-header>
+  <div class="row">
+    <div class="col-12">
+      Your trusts
+    </div>
+  </div>
+  <div class="row" *ngIf="ownedTrusts?.length !== 0">
+    <div class="col-4">
+      Owned trusts
+    </div>
+    <div class="col-4" *ngFor="let trust of ownedTrusts">
+      <a routerLink="/trust/{{trust.key}}">
+        {{trust?.name}}
+      </a>
+    </div>
+  </div>
+  <div class="row" *ngIf="joinedTrusts?.length !== 0">
+    <div class="col-4">
+      Joined trusts
+    </div>
+    <div class="col-4" *ngFor="let trust of joinedTrusts">
+      <a routerLink="/trust/{{trust.key}}">
+        {{trust?.name}}
+        {{trust?.reputation}}
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      Your friends
+    </div>
+  </div>
+  <div class="row" *ngIf="friends?.length !== 0">
+    <div class="col-4" *ngFor="let friend of friends">
+      {{friend.fullName}}
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<div *ngIf="posts">
+  <div *ngFor="let post of posts">
+    <div class="card">
+      <div class="card-body">
+        <div>
+          On {{post.originName}}
+        </div>
+        <div>
+          +{{post.reputation.upvotes}} / -{{post.reputation.downvotes}}
+        </div>
+        <div [innerHTML]="post.content"></div>
+        <div class="font-italic">
+          {{post.createdOn}}
+        </div>
+        <div>
+          {{pos}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

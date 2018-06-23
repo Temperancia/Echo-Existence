@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<div class="container-fluid content">
+  <app-header></app-header>
+  <div class="row">
+    <h1 class="col-12 text-center w-100 my-5">
+      {{name}}
+    </h1>
+  </div>
+  <div class="row">
+    <div class="col-1 p-0 navbar">
+      <div class="w-100">
+        <button (click)="toggle('home');">Flux</button>
+      </div>
+      <div class="w-100">
+        <button (click)="toggle('members');">Members</button>
+      </div>
+      <div class="w-100">
+        <button (click)="toggle('policies');">Policies</button>
+      </div>
+    </div>
+    <div class="offset-1 col-10">
+      <div class="container">
+        <div *ngIf="toggles.home">
+          <div class="row">
+            <div class="col-12 justify-content-center align-self-center">
+              <form>
+                <app-emojis ref-emojis class='emojis' (onEmoji)='onEmoji($event)'></app-emojis>
+                <textarea class="form-control" placeholder="Say something already" name="currentPostContent" [(ngModel)]="currentPost.content"></textarea>
+                <button (click)="post(postType.Echo)">Echo</button>
+                <button (click)="post(postType.Rumour)">Rumour</button>
+                <button (click)="post(postType.Inquiry)">Inquiry</button>
+                <button (click)="post(postType.Outrage)">Outrage</button>
+              </form>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12 feed">
+              <div class="post m-3 p-3" *ngFor="let post of posts">
+                <h3>
+                  {{post.author.fullName}}
+                </h3>
+                <div class="reputation" *ngIf="post.author._id !== owner._id">
+                  +{{post.reputation.upvotes}}
+                  -{{post.reputation.downvotes}}
+                </div>
+                <p>
+                  {{post.content}}
+                </p>
+                <div>
+                  {{post.createdOn}}
+                </div>
+                <button *ngIf="canVote(post.author._id, post.reputation.voters)" (click)="upvote(post._id)">+</button>
+                <button *ngIf="canVote(post.author._id, post.reputation.voters)" (click)="downvote(post._id)">-</button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="toggles.members">
+          <div class="row mt-2">
+            <div class="offset-4 col-4 text-center w-100 inspiration">
+              <h2 class="title">
+                Inspiration
+              </h2>
+              <h3 class="">
+                {{owner?.fullName}}
+              </h3>
+            </div>
+          </div>
+          <div class="row mt-2 trustees">
+            <h2 class="col-3 title">
+              Trustees
+            </h2>
+            <div class="col-3 trustee" *ngFor="let trustee of trustees">
+              <div class="text-center">
+                {{trustee.fullName}}
+              </div>
+              <div class="text-center">
+                rank {{trustee.reputation.rank}}
+              </div>
+            </div>
+          </div>
+          <div class="row mt-2 followers">
+            <h2 class="col-3 title">
+              Followers
+            </h2>
+            <div class="col-3 follower" *ngFor="let follower of followers">
+              <div class="text-center">
+                {{follower.fullName}}
+              </div>
+              <div class="text-center">
+                rank {{follower.reputation.rank}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="toggles.policies">
+          <div class="row mt-2">
+            <div class="offset-3 col-6">
+              Our policies
+            </div>
+          </div>
+          <div class="row mt-2" *ngFor="let policy of trust?.policies">
+            <div class="offset-3 col-6">
+              {{policy}}
+            </div>
+          </div>
+          <form>
+            <div class="row mt-2">
+              <div class="offset-3 col-6">
+                <textarea name="newPolicy" [(ngModel)]="newPolicy"></textarea>
+                <button (click)="createPolicy()">+</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

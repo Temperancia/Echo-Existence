@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<div class="row flux-box">
+  <div class="container-fluid">
+    <div class="row by">
+      <div class="col-4">
+        <button class="btn" [ngClass]="displayedFluxes.Tendance ? 'btn-tendance' : 'btn-secondary'" (click)="toggleFlux(tendance)">Tendance</button>
+        <button class="btn" [ngClass]="displayedFluxes.Friends ? 'btn-friend' : 'btn-secondary'" (click)="toggleFlux(friends)">Friend</button>
+        <button class="btn" [ngClass]="displayedFluxes.DailyLife ? 'btn-daily' : 'btn-secondary'" (click)="toggleFlux(dailyLife)" >Daily Life</button>
+        <button class="btn" [ngClass]="displayedFluxes.LifeStyle ? 'btn-style' : 'btn-secondary'" (click)="toggleFlux(lifeStyle)">Life Style</button>
+      </div>
+      <div class="col-4">
+        <button class="btn">Echo</button>
+        <button class="btn">Rumour</button>
+        <button class="btn">Inquiry</button>
+        <button class="btn">Outrage</button>
+      </div>
+      <div class="col-4 bl">
+        <button class="btn d-block mx-auto my-3">Popular</button>
+        <button class="btn d-block mx-auto my-3">Strife</button>
+        <button class="btn d-block mx-auto my-3">Celebs</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <input />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <ng-datepicker [(ngModel)]="date" name="date" [options]="calendarOptions">Pick a date</ng-datepicker>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 w-100">
+  </div>
+  <div class="col-12 w-100">
+  </div>
+  <div class="col-12 w-100">
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<div (click)="onContainerClicked($event)" tabindex="-1" [ngStyle]="{&quot;display&quot;: visible ? &quot;block&quot; : &quot;none&quot;}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!--div(class='modal-header')-->
+      <div class="modal-body">
+        <button (click)="previousRow()"><</button>
+        <div class="emoji-block" *ngFor="let range of actualEmojis; let index = index;">
+          <div *ngIf="isDisplayed(index)">
+            <div class="emoji" (click)="addEmoji(e)" *ngFor="let e of range" [innerHTML]="e"></div>
+          </div>
+        </div>
+        <button (click)="nextRow()">></button>
+      </div>
+      <!--div(class='modal-footer')-->
+    </div>
+  </div>
+</div>

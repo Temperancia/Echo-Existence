@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<div class="container-fluid content">
+  <app-header></app-header>
+  <div class="row">
+    <div class="col-4">
+      <h2>Create your own trust by now :</h2>
+      <form name="newTrustForm" (ngSubmit)="createTrust()">
+        <div class="form-group">
+          <label for="newTrustName">Name</label>
+          <input class="form-control" id="newTrustName" type="text" name="newTrustName" [(ngModel)]="newTrust.name">
+        </div>
+        <div class="form-group">
+          <label for="newTrustDescription">Description</label>
+          <input class="form-control" id="newTrustDescription" type="text" name="newTrustDescription" [(ngModel)]="newTrust.description">
+        </div>
+        <button class="btn-others">+</button>
+      </form>
+    </div>
+  </div>
+  <div class="row" *ngIf="trusts">
+    <div class="col-4 card" *ngFor="let trust of trusts">
+      <img class="card-img-top" src="assets/img/logo_width.png"/>
+      <div class="card-body">
+        <h2 class="card-title">
+          {{trust.name}} / {{trust.reputation}}
+        </h2>
+        <p class="card-text">
+          <i>{{trust.description}}</i>
+        </p>
+        <footer class="blockquote-footer">
+          {{trust.specialDescription}}
+        </footer>
+        <button class="btn btn-others" *ngIf="trust.requested">Application sent</button>
+        <button class="btn btn-others" (click)="joinTrust(trust._id, trust.key)" *ngIf="!trust.requested && !trust.partOf">Join</button>
+        <button class="btn btn-others" (click)="enterTrust(trust.name)" *ngIf="!trust.requested && trust.partOf">Enter</button>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>
