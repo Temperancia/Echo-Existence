@@ -38,9 +38,11 @@ module.exports = {
       path.join(__dirname, 'src'),
       {}
     ),
+    /*
     new UglifyJsPlugin({
       sourceMap: true,
       uglifyOptions: { ecma: 8 },
     })
+    */
   ]
 }
