@@ -3,6 +3,7 @@
   background-color: white;
   .btn {
     border-radius: 5px;
+    color: white;
     width: 100%;
     margin: 5px 0 5px 0;
     padding: 10px;
@@ -40,4 +41,8 @@
 .btn-style {
   color: inherit;
   background-color: $rendeez;
+}
+
+.btn-other {
+  background-color: $trickle;
 }

@@ -37,7 +37,7 @@ module.exports = {
       /(.+)?express(\\|\/)(.+)?/,
       path.join(__dirname, 'src'),
       {}
-    ),
+    )
     /*
     new UglifyJsPlugin({
       sourceMap: true,

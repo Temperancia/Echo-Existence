@@ -1,6 +1,31 @@
 <!DOCTYPE html>
 <div class="container-fluid content">
   <app-header></app-header>
-  <app-feed></app-feed>
+  <div *ngFor="let post of feed$ | async">
+    <div class="row">
+      <div class="col-6" [ngClass]="postService.getPostTypeStyle(post.originName)">
+        <div>
+          {{post.author.fullName}}
+        </div>
+        <div>
+          {{post.author.rank}}
+        </div>
+      </div>
+      <div class="col-6" [ngClass]="postService.getPostTypeStyle(post.originName)">
+        <div>
+          {{post.reputation.upvotes}} Ups / {{post.reputation.downvotes}} Downs
+        </div>
+        <div>
+          {{post.createdOn}}
+        </div>
+      </div>
+    <div class="row">
+      <div class="col-12">
+        <div [innerHTML]="post.content"></div>
+        <button *ngIf="canVote(post.author._id, post.reputation.voters)" (click)="upvote(post._id)">+</button>
+        <button *ngIf="canVote(post.author._id, post.reputation.voters)" (click)="downvote(post._id)">-</button>
+      </div>
+    </div>
+  </div>
   <app-footer></app-footer>
 </div>

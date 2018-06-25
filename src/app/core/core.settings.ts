@@ -2,12 +2,9 @@ import { Observable ,  of } from 'rxjs';
 import { Router } from '@angular/router';
 
 export const API_ENDPOINT='http://localhost:4000/api/';
-export const displayedFluxes = {
-  Tendance: false,
-  Friends: false,
-  DailyLife: false,
-  LifeStyle: false
-};
+export const now: Date = new Date(Date.now());
+export let yesterday: Date = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
 export const displayedNotifications: any = {
   'friendRequestsSent': false,
   'friendRequestsReceived': false,

@@ -14,8 +14,8 @@
       </div>
     </div>
     <app-navigation-box (toggle)="toggle($event)" *ngIf="this.toggles['navigation']"></app-navigation-box>
-    <app-post-box *ngIf="this.toggles['echo']" [@itemAnim]></app-post-box>
-    <app-flux-box *ngIf="this.toggles['menu']" [@itemAnim]></app-flux-box>
+    <app-post-box *ngIf="this.toggles.echo" [@itemAnim]></app-post-box>
+    <app-flux-box *ngIf="this.toggles.menu" (hide)="toggle('menu')"[@itemAnim]></app-flux-box>
   </div>
 
 

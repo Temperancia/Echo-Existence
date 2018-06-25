@@ -12,9 +12,7 @@ import { Flux } from './../core/enums/flux.enum';
 @Injectable()
 export class PostService {
   feed = new BehaviorSubject<string>(null);
-  constructor(private http: HttpClient) {
-
-  }
+  constructor(private http: HttpClient) { }
   getPostTypeStyle (type: string): string {
     if (type === 'friends') {
       return 'post-friend';
@@ -36,21 +34,23 @@ export class PostService {
   downvote(postId: string): Observable<any> {
     return this.http.get(API_ENDPOINT + 'posting/post/' + postId + '/downvote');
   }
-  updateFeed(displayedFluxes: any) {
-    let fluxes = '';
-    for (const [flux, displayed] of Object.entries(displayedFluxes)) {
-      if (displayed) {
-        fluxes += flux + '+';
-      }
-    }
-    if (fluxes !== '') {
-      this.feed.next(fluxes.substring(0, fluxes.length - 1));
-    }
+  updateFeed(fluxPreference: any) {
+    const request = 'origin=' + Object.keys(fluxPreference.flux).filter(flux => {
+      return fluxPreference.flux[flux];
+    }).join('+')
+    + '&postType=' + Object.keys(fluxPreference.type).filter(type => {
+      return fluxPreference.type[type];
+    }).join('+')
+    + '&sort=' + fluxPreference.sort
+    + '&startDate=' + fluxPreference.period.start
+    + '&endDate=' + fluxPreference.period.end;
+    this.feed.next(request);
   }
   getFeed(): Observable<Post[]> {
+    this.updateFeed(JSON.parse(localStorage.getItem('fluxPreference')));
     return this.feed.pipe(
-      debounceTime(300),
-      flatMap((fluxes: string) => this.getPostsFromFlux(fluxes)),
+      flatMap((request: string) => this.getPostsFromFlux(request)),
+      tap(posts => console.log(posts))
     );
   }
   private convertDates(posts: Post[]): Post[] {
@@ -62,23 +62,17 @@ export class PostService {
     }
     return posts;
   }
-  private sortByRep(posts: Post[]): Post[] {
-    return posts.sort((a, b) => {
-      return a.reputation.upvotes > b.reputation.upvotes ? -1 : 1;
-    });
-  }
   private getPosts(url: string): Observable<Post[]> {
     return this.http.get<Post[]>(API_ENDPOINT + url)
     .pipe(
       map(posts => {
         posts = this.convertDates(posts);
-        posts = this.sortByRep(posts);
         return posts;
       })
     );
   }
-  public getPostsFromFlux(fluxes: string): Observable<Post[]> {
-    return this.getPosts('posting/posts/get?type=Flux&origin=' + fluxes);
+  public getPostsFromFlux(request: string): Observable<Post[]> {
+    return this.getPosts('posting/posts/get?type=Flux&' + request);
   }
   public getPostsFromUser(id=getId()): Observable<Post[]> {
     return this.getPosts('posting/posts/get?user=' + id);

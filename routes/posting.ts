@@ -36,7 +36,7 @@ posting.get('/posts/get', async (req, res) => {
   try {
     if (type) {
       if (type === 'Flux') {
-        posts = await findPostsFromFluxes(req.query.origin.split(' '));
+        posts = await findPostsFromFluxes(req.query);
       } else if (type === 'Trust') {
         posts = await findPostsFromTrust(req.query.origin);
       }
@@ -45,6 +45,7 @@ posting.get('/posts/get', async (req, res) => {
     }
     return res.json(posts);
   } catch(err) {
+    console.log(err);
     return res.status(500).json('Error while finding posts');
   }
 });
@@ -75,7 +76,7 @@ async function vote(voterId: string, postId: string, coefficient: number): Promi
     coefficient === 1
     ? updateThisPost['$inc'] = {'reputation.upvotes': 1}
     : updateThisPost['$inc'] = {'reputation.downvotes': 1};
-    Post.findByIdAndUpdate(postId, updateThisPost).exec();
+    await Post.findByIdAndUpdate(postId, updateThisPost);
     if (post.originType === 'Flux') {
       await User.findByIdAndUpdate(post.author, {
         $set: {'reputation.refresh': true}
@@ -92,14 +93,65 @@ async function vote(voterId: string, postId: string, coefficient: number): Promi
   }
 }
 
-function findPostsFromFluxes(fluxes: string): Promise<any> {
-  const filter = {
+async function findPostsFromFluxes(request: any): Promise<any> {
+  let posts;
+  let filter = {
     originType: 'Flux',
-    originName: {$in: fluxes}
+    originName: {$in: request.origin.split(' ')},
+    postType: {$in: request.postType.split(' ')},
   };
-  return Post.find(filter)
-  .select('originName postType content createdOn reputation')
-  .populate('author', 'fullName reputation');
+  let sort: any = {};
+  if (request.sort === 'Popular') {
+    sort['reputation.upvotes'] = -1;
+    sort['createdOn'] = -1;
+    posts = await Post.aggregate()
+    .match(filter)
+    .sort(sort)
+    .project('originName postType content author createdOn reputation');
+  } else if (request.sort === 'Strife') {
+    filter['approval'] = {
+      $lt: 0.75
+    };
+    sort['reputation.upvotes'] = -1;
+    sort['createdOn'] = -1;
+    posts = await Post.aggregate()
+    .addFields({
+      sum: {
+        $add: ['$reputation.upvotes', '$reputation.downvotes']
+      }
+    })
+    .addFields({
+      approval: {
+        $cond: [
+          {
+            $eq: ['$sum', 0]
+          },
+          0.5,
+          {
+            $divide: ['$reputation.upvotes', '$sum']
+          }
+        ]
+      }
+    })
+    .match(filter)
+    .sort(sort)
+    .project('originName postType content author createdOn reputation');
+  } else {
+    sort['user.rank'] = -1;
+    sort['createdOn'] = -1;
+    posts = await Post.aggregate()
+    .match(filter)
+    .sort(sort)
+    .lookup({
+      from: 'user',
+      localField: 'author',
+      foreignField: '_id',
+      as: 'user'
+    })
+    .project('originName postType content author createdOn reputation');
+  }
+  console.log(posts);
+  return User.populate(posts, {path: 'author', select: 'fullName reputation'});
 }
 
 function findPostsFromUser(user: string): Promise<any> {
