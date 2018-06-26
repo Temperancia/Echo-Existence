@@ -7,24 +7,56 @@
     outline: none;
 }
 body {
-  height: 800px;
   color: black !important;
   background-color: $trickle !important;
   font-family: 'Roboto-Regular' !important;
 }
-.content {
-  margin-top: 30%;
-}
 button {
   cursor: pointer;
 }
-.btn-others {
+.default-bg {
   color: white;
   background-color: $trickle;
 }
 
 input, button, textarea {
-  border-radius: 25px !important;
+  border-radius: 25px;
+}
+.tendance-bg {
+  color: white;
+  background-color: $azureon !important;
+}
+
+.friends-bg {
+  color: white;
+  background-color: $yorel !important;
+}
+
+.dailylife-bg {
+  color: white;
+  background-color: $bodel !important;
+}
+
+.lifestyle-bg {
+  color: white;
+  background-color: $rendeez !important;
+}
+
+.green-bg {
+  color: white;
+  background-color: $green !important;
+}
+
+.red-bg {
+  color: white;
+  background-color: $red !important;
+}
+.by {
+  border-top: 1px solid lightgrey;
+  border-bottom: 1px solid lightgrey;
+}
+.bl {
+  border-left: 1px solid lightgrey;
 }
 /*
 input:focus, button:focus {

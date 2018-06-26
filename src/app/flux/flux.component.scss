@@ -1,20 +1,23 @@
-.has-good-reputation {
-  background: green;
-}
+@import './../core/global.scss';
 
-.has-bad-reputation {
-  background: red;
+.arrow {
+  position: fixed;
+  bottom: 0; right: 5%;
+  background-color: white;
+  font-size: 40px;
+  z-index: 1;
 }
-.friend-list {
-
-  height: 50vh;
-  overflow-y: scroll;
+.info {
+  width: 50px;
+  border-radius: 50px !important;
 }
+.info-block {
+  border-radius: 0px !important;
 
-.post-tendance {
-  background-color: #03b0f5;
 }
-
-.post-friend {
-  background-color: #0669b2;
+.title {
+  font-size: 20px;
+  padding: 10px 5px;
+  border: 2px solid lightgrey;
+  text-decoration: underline;
 }

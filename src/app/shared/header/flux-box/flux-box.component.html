@@ -1,70 +1,68 @@
 <!DOCTYPE html>
-
 <div class="row flux-box">
   <div class="container-fluid">
     <div class="row by">
-      <div class="col-4">
-        <button class="btn" [ngClass]="fluxPreference.flux.Tendance ? 'btn-tendance' : ''" (click)="toggleFlux(tendance)">
+      <div class="col-4 px-2">
+        <button class="btn" [ngClass]="fluxPreference.flux.Tendance ? 'tendance-bg' : ''" (click)="toggleFlux(tendance)">
           Tendance
         </button>
-        <button class="btn" [ngClass]="fluxPreference.flux.Friends ? 'btn-friend' : ''" (click)="toggleFlux(friends)">
-          Friend
+        <button class="btn" [ngClass]="fluxPreference.flux.Friends ? 'friends-bg' : ''" (click)="toggleFlux(friends)">
+          Friends
         </button>
-        <button class="btn" [ngClass]="fluxPreference.flux.DailyLife ? 'btn-daily' : ''" (click)="toggleFlux(dailyLife)">
+        <button class="btn" [ngClass]="fluxPreference.flux.DailyLife ? 'dailylife-bg' : ''" (click)="toggleFlux(dailyLife)">
           Daily Life
         </button>
-        <button class="btn" [ngClass]="fluxPreference.flux.LifeStyle ? 'btn-style' : ''" (click)="toggleFlux(lifeStyle)">
+        <button class="btn" [ngClass]="fluxPreference.flux.LifeStyle ? 'lifestyle-bg' : ''" (click)="toggleFlux(lifeStyle)">
           Life Style
         </button>
       </div>
-      <div class="col-4">
-        <button class="btn" [ngClass]="fluxPreference.type.Echo ? 'btn-other' : ''" (click)="toggleType(echo)">
+      <div class="col-4 px-2">
+        <button class="btn" [ngClass]="fluxPreference.type.Echo ? 'default-bg' : ''" (click)="toggleType(echo)">
           Echo
         </button>
-        <button class="btn" [ngClass]="fluxPreference.type.Rumour ? 'btn-other' : ''" (click)="toggleType(rumour)">
+        <button class="btn" [ngClass]="fluxPreference.type.Rumour ? 'default-bg' : ''" (click)="toggleType(rumour)">
           Rumour
         </button>
-        <button class="btn" [ngClass]="fluxPreference.type.Inquiry ? 'btn-other' : ''" (click)="toggleType(inquiry)">
+        <button class="btn" [ngClass]="fluxPreference.type.Inquiry ? 'default-bg' : ''" (click)="toggleType(inquiry)">
           Inquiry
         </button>
-        <button class="btn" [ngClass]="fluxPreference.type.Outrage ? 'btn-other' : ''" (click)="toggleType(outrage)">
+        <button class="btn" [ngClass]="fluxPreference.type.Outrage ? 'default-bg' : ''" (click)="toggleType(outrage)">
           Outrage
         </button>
       </div>
-      <div class="col-4 bl">
-        <button class="btn" [ngClass]="fluxPreference.sort === 'Popular' ? 'btn-other' : ''" (click)="switchSort('Popular')">
+      <div class="col-4 px-2 bl">
+        <button class="btn" [ngClass]="fluxPreference.sort === 'Popular' ? 'default-bg' : ''" (click)="switchSort('Popular')">
           Popular
         </button>
-        <button class="btn" [ngClass]="fluxPreference.sort === 'Strife' ? 'btn-other' : ''" (click)="switchSort('Strife')">
+        <button class="btn" [ngClass]="fluxPreference.sort === 'Strife' ? 'default-bg' : ''" (click)="switchSort('Strife')">
           Strife
         </button>
-        <button class="btn" [ngClass]="fluxPreference.sort === 'Celebs' ? 'btn-other' : ''" (click)="switchSort('Celebs')">
+        <button class="btn" [ngClass]="fluxPreference.sort === 'Celebs' ? 'default-bg' : ''" (click)="switchSort('Celebs')">
           Celebs
         </button>
       </div>
     </div>
     <div class="row">
       <div class="col-12">
-        <input placeholder="Look for specific authors or contents"/>
+        <input class="my-2" placeholder="Look for specific authors or contents"/>
       </div>
     </div>
     <div class="row">
       <div class="col-12">
-        <ng-datepicker [(ngModel)]="startDate" name="startDate" [options]="startCalendarOptions" position="top-left"></ng-datepicker>
-        <ng-datepicker [(ngModel)]="endDate" name="endDate" [options]="endCalendarOptions" position="top-left"></ng-datepicker>
+        <div class="my-2">
+          <ng-datepicker [(ngModel)]="startDate" name="startDate" [options]="startCalendarOptions" position="top-left"></ng-datepicker>
+        </div>
+        <div class="my-2">
+          <ng-datepicker [(ngModel)]="endDate" name="endDate" [options]="endCalendarOptions" position="top-left"></ng-datepicker>
+        </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-12">
-        <button (click)="updateFeed()">Go</button>
+      <div class="offset-3 col-6">
+        <button class="w-100 my-3 py-2 default-bg" (click)="updateFeed()">
+          Go
+        </button>
       </div>
     </div>
-  </div>
-
-  <div class="col-12 w-100">
-  </div>
-  <div class="col-12 w-100">
-  </div>
-  <div class="col-12 w-100">
   </div>
 </div>

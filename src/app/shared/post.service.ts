@@ -14,11 +14,7 @@ export class PostService {
   feed = new BehaviorSubject<string>(null);
   constructor(private http: HttpClient) { }
   getPostTypeStyle (type: string): string {
-    if (type === 'friends') {
-      return 'post-friend';
-    } else if (type === 'trending') {
-      return 'post-tendance';
-    }
+    return type.toLowerCase() + '-bg';
   }
   create(post: Post) {
     return this.http.post(API_ENDPOINT + 'posting/posts/create', {
@@ -57,8 +53,10 @@ export class PostService {
     for (let post of posts) {
       const createdOn = new Date(post.createdOn);
       post.createdOn = createdOn.toLocaleDateString('en-US', {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-      }) + ' ' + createdOn.toLocaleTimeString('en-US');
+        year: '2-digit', month: '2-digit', day: '2-digit'
+      }) + ' ' + createdOn.toLocaleTimeString('en-US', {
+        hour: '2-digit', minute: '2-digit'
+      });
     }
     return posts;
   }

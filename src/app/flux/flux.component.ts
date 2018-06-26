@@ -4,16 +4,70 @@ import { Observable } from 'rxjs';
 
 import { PostService } from './../shared/post.service';
 import { Flux } from './../core/enums/flux.enum';
+import { PostType } from './../core/enums/post-type.enum';
 import { Post } from './../core/models/post';
 import { getId, refresh } from './../core/core.settings';
 
 @Component({
   selector: 'flux-component',
-  templateUrl: 'flux.component.html'
+  templateUrl: 'flux.component.html',
+  styleUrls: ['flux.component.scss']
 })
 export class FluxComponent implements OnInit {
   flux = Flux;
   feed$: Observable<Post[]>;
+  toggle = {
+    postHeader: [],
+    postVote: []
+  };
+  postVerbs: any = {
+    [PostType.Echo]: 'saying.',
+    [PostType.Rumour]: 'considering~',
+    [PostType.Inquiry]: 'asking?',
+    [PostType.Outrage]: 'outraged!'
+  }
+  postReplies: any = {
+    [PostType.Echo]: {
+      positive: [
+        'Interesting',
+        'Nice'
+      ],
+      negative: [
+        'Meh',
+        'So what ...'
+      ]
+    },
+    [PostType.Rumour]: {
+      positive: [
+        'Indeed',
+        'Perhaps'
+      ],
+      negative: [
+        'Unlikely',
+        'Phony'
+      ]
+    },
+    [PostType.Inquiry]: {
+      positive: [
+        'Curious',
+        'Good Question'
+      ],
+      negative: [
+        'Dull',
+        'Another time'
+      ]
+    },
+    [PostType.Outrage]: {
+      positive: [
+        'Concur',
+        'Well said'
+      ],
+      negative: [
+        'Oppose',
+        'Vile'
+      ]
+    }
+  };
   constructor(private router: Router, private postService: PostService) {
   }
   ngOnInit() {
@@ -22,16 +76,23 @@ export class FluxComponent implements OnInit {
   launchFeed() {
     this.feed$ = this.postService.getFeed();
   }
-  canVote(authorId: string, voters: any[]): boolean {
-    const id = getId();
-    return id !== authorId && !(voters.find(voter => { return voter === id; }));
+  togglePostElement(element: string, postId: string): void {
+    const index = this.toggle[element].indexOf(postId);
+    if (index === -1) {
+      this.toggle[element].push(postId);
+    } else {
+      this.toggle[element].splice(index, 1);
+    }
   }
-  upvote(postId) {
+  showPostElement(element: string, postId: string): boolean {
+    return this.toggle[element].find(member => member === postId);
+  }
+  upvote(postId: string, type: string) {
     this.postService.upvote(postId).subscribe(_ => {
       refresh(this.router);
     });
   }
-  downvote(postId) {
+  downvote(postId: string, type: string) {
     this.postService.downvote(postId).subscribe(_ => {
       refresh(this.router);
     });

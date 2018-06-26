@@ -8,41 +8,11 @@
     margin: 5px 0 5px 0;
     padding: 10px;
   }
-  .by {
-    border-top: 1px solid lightgrey;
-    border-bottom: 1px solid lightgrey;
-  }
-  .bl {
-    border-left: 1px solid lightgrey;
-  }
+
   input {
     width: 100%;
     height: 40px;
     padding: 10px;
     margin: 2px 0 2px 0;
   }
-}
-
-.btn-tendance {
-  color: inherit;
-  background-color: $azureon;
-}
-
-.btn-friend {
-  color: inherit;
-  background-color: $yorel;
-}
-
-.btn-daily {
-  color: inherit;
-  background-color: $bodel;
-}
-
-.btn-style {
-  color: inherit;
-  background-color: $rendeez;
-}
-
-.btn-other {
-  background-color: $trickle;
 }

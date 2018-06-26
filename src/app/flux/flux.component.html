@@ -1,31 +1,63 @@
 <!DOCTYPE html>
-<div class="container-fluid content">
+<div class="container-fluid">
   <app-header></app-header>
   <div *ngFor="let post of feed$ | async">
-    <div class="row">
-      <div class="col-6" [ngClass]="postService.getPostTypeStyle(post.originName)">
-        <div>
-          {{post.author.fullName}}
+    <div class="card my-2" [ngClass]="postService.getPostTypeStyle(post.originName)">
+      <div class="d-flex d-sm-none row card-header" *ngIf="showPostElement('postHeader', post._id)">
+        <div class="col-6 pl-0 pr-1 text-center">
+          <div>
+            {{post.author.fullName}}
+          </div>
+          <div>
+            R {{post.author.reputation.rank}}
+          </div>
         </div>
-        <div>
-          {{post.author.rank}}
+        <div class="col-6 pl-1 pr-0 info-block bl">
+          <div>
+            {{post.reputation.upvotes}} Ups / {{post.reputation.downvotes}} Downs
+          </div>
+          <div>
+            {{post.createdOn}}
+          </div>
         </div>
       </div>
-      <div class="col-6" [ngClass]="postService.getPostTypeStyle(post.originName)">
-        <div>
-          {{post.reputation.upvotes}} Ups / {{post.reputation.downvotes}} Downs
+      <div class="card-body">
+        <button class="d-block d-sm-none mx-auto my-2 default-bg info" (click)="togglePostElement('postHeader', post._id)">
+          i
+        </button>
+        <div class="row">
+          <div class="col-12">
+            <div class="title">
+              {{post.author.fullName}} is {{postVerbs[post.postType]}}
+            </div>
+          </div>
         </div>
-        <div>
-          {{post.createdOn}}
+        <div class="row">
+          <div class="col-12">
+            <div class="py-3" [innerHTML]="post.content"></div>
+          </div>
         </div>
+        <button class="d-block mx-auto my-2 default-bg info" (click)="togglePostElement('postVote', post._id)">
+          v
+        </button>
       </div>
-    <div class="row">
-      <div class="col-12">
-        <div [innerHTML]="post.content"></div>
-        <button *ngIf="canVote(post.author._id, post.reputation.voters)" (click)="upvote(post._id)">+</button>
-        <button *ngIf="canVote(post.author._id, post.reputation.voters)" (click)="downvote(post._id)">-</button>
+      <div class="row card-footer" *ngIf="showPostElement('postVote', post._id)">
+        <div *ngIf="!post.hasVoted">
+          <div class="col-6" *ngFor="let positiveVote of postReplies[post.postType].positive">
+            <button class="w-100 h-75 p-2 my-2 green-bg" (click)="upvote(post._id, postReplies[post.postType].positive.indexOf(positiveVote))">
+              {{positiveVote}}
+            </button>
+          </div>
+          <div class="col-6" *ngFor="let negativeVote of postReplies[post.postType].negative">
+            <button class="w-100 h-75 p-2 my-2 red-bg" (click)="downvote(post._id, postReplies[post.postType].negative.indexOf(negativeVote))">
+              {{negativeVote}}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <app-footer></app-footer>
+  <a pageScroll href="#header" class="arrow">
+    ^<br />^
+  </a>
 </div>
