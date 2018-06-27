@@ -104,9 +104,9 @@ export class TrustComponent implements OnInit {
     const id = getId();
     if (id === this.owner._id) {
       this.role = TrustRole.Inspiration;
-    } else if (this.trustees.map(trustee => { return trustee._id }).indexOf(id) > -1) {
+    } else if (this.trustees.map(trustee => trustee._id).indexOf(id) > -1) {
       this.role = TrustRole.Trustee;
-    } else if (this.followers.map(follower => { return follower._id }).indexOf(id) > -1) {
+    } else if (this.followers.map(follower => follower._id).indexOf(id) > -1) {
       this.role = TrustRole.Follower;
     } else {
       this.role = TrustRole.None;
@@ -129,15 +129,15 @@ export class TrustComponent implements OnInit {
   }
   canVote(authorId: string, voters: any[]): boolean {
     const id = getId();
-    return id !== authorId && authorId !== this.owner._id && !(voters.find(voter => { return voter === id; }));
+    return id !== authorId && authorId !== this.owner._id && !(voters.find(voter => voter === id));
   }
   upvote(postId) {
-    this.postService.upvote(postId).subscribe(_ => {
+    this.postService.upvote(postId, '1').subscribe(_ => {
       refresh(this.router);
     });
   }
   downvote(postId) {
-    this.postService.downvote(postId).subscribe(_ => {
+    this.postService.downvote(postId, '0').subscribe(_ => {
       refresh(this.router);
     });
   }

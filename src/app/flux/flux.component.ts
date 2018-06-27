@@ -14,6 +14,7 @@ import { getId, refresh } from './../core/core.settings';
   styleUrls: ['flux.component.scss']
 })
 export class FluxComponent implements OnInit {
+  id: string = getId();
   flux = Flux;
   feed$: Observable<Post[]>;
   toggle = {
@@ -88,12 +89,12 @@ export class FluxComponent implements OnInit {
     return this.toggle[element].find(member => member === postId);
   }
   upvote(postId: string, type: string) {
-    this.postService.upvote(postId).subscribe(_ => {
+    this.postService.upvote(postId, type).subscribe(_ => {
       refresh(this.router);
     });
   }
   downvote(postId: string, type: string) {
-    this.postService.downvote(postId).subscribe(_ => {
+    this.postService.downvote(postId, type).subscribe(_ => {
       refresh(this.router);
     });
   }

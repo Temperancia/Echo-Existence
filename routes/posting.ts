@@ -52,32 +52,35 @@ posting.get('/posts/get', async (req, res) => {
 });
 
 posting.get('/post/:postId/upvote', async (req, res) => {
-  const error = await vote(req.decoded.id, req.params.postId, 1)
+  const error = await vote(req.decoded.id, req.params.postId, req.query.type, true)
   return error ? res.status(500).json(error) : res.json({});
 });
 
 posting.get('/post/:postId/downvote', async (req, res) => {
-  const error = await vote(req.decoded.id, req.params.postId, -1);
+  const error = await vote(req.decoded.id, req.params.postId, req.query.type, false);
   return error ? res.status(500).json(error) : res.json({});
 });
 
-async function vote(voterId: string, postId: string, coefficient: number): Promise<string> {
+async function vote(voterId: string, postId: string, voteType: string, upvote: boolean): Promise<string> {
   try {
     const post = await Post.findById(postId)
     .select('originType originName author reputation');
     if (post.author.equals(voterId)) {
       throw 'Cannot upvote your own post';
     }
-    if (post.reputation.voters.find(voter => { return voter.equals(voterId); })) {
-      return 'Cannot upvote anymore';
+    if (post.reputation.votes.find(vote => vote.voter.equals(voterId))) {
+      throw 'Cannot upvote anymore';
     }
-    let updateThisPost = {
-      $push: {'reputation.voters': voterId},
-    };
-    coefficient === 1
-    ? updateThisPost['$inc'] = {'reputation.upvotes': 1}
-    : updateThisPost['$inc'] = {'reputation.downvotes': 1};
-    await Post.findByIdAndUpdate(postId, updateThisPost);
+    await Post.findByIdAndUpdate(postId, {
+      $push: {'reputation.votes': {
+        voter: Types.ObjectId(voterId),
+        positive: upvote,
+        voteType: Number(voteType)
+      }},
+      $inc: upvote
+      ? {'reputation.upvotes': 1}
+      : {'reputation.downvotes': 1}
+    });
     if (post.originType === 'Flux') {
       await User.findByIdAndUpdate(post.author, {
         $set: {'reputation.refresh': true}
@@ -145,11 +148,18 @@ async function findPostsFromFluxes(request: any, thisUserId: string): Promise<an
   .match(filter)
   .sort(sort)
   .addFields({
-    hasVoted: {
-      $in: ['$reputation.votes.voters', [thisUserId]]
+    vote: {
+      $arrayElemAt: [{
+        $filter: {
+          input: '$reputation.votes',
+          as: 'vote',
+          cond: {$eq: ['$$vote.voter', Types.ObjectId(thisUserId)]}
+        }},
+        0
+      ]
     }
   })
-  .project('originName postType content author createdOn reputation hasVoted');
+  .project('originName postType content author createdOn reputation vote');
   console.log(posts);
   return User.populate(posts, {path: 'author', select: 'fullName reputation'});
 }
