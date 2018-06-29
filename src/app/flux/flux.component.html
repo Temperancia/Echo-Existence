@@ -37,12 +37,12 @@
             <div class="py-3" [innerHTML]="post.content"></div>
           </div>
         </div>
-        <button class="d-block mx-auto my-2 default-bg info" (click)="togglePostElement('postVote', post._id)">
+        <button class="d-block mx-auto my-2 default-bg info" (click)="togglePostElement('postVote', post._id)" *ngIf="post.author._id !== id">
           v
         </button>
       </div>
-      <div class="row card-footer" *ngIf="showPostElement('postVote', post._id)">
-        <div *ngIf="!post.hasVoted">
+      <div class="card-footer" *ngIf="showPostElement('postVote', post._id)">
+        <div class="row" *ngIf="post.author._id !== id && !post.vote">
           <div class="col-6" *ngFor="let positiveVote of postReplies[post.postType].positive">
             <button class="w-100 h-75 p-2 my-2 green-bg" (click)="upvote(post._id, postReplies[post.postType].positive.indexOf(positiveVote))">
               {{positiveVote}}
@@ -51,6 +51,18 @@
           <div class="col-6" *ngFor="let negativeVote of postReplies[post.postType].negative">
             <button class="w-100 h-75 p-2 my-2 red-bg" (click)="downvote(post._id, postReplies[post.postType].negative.indexOf(negativeVote))">
               {{negativeVote}}
+            </button>
+          </div>
+        </div>
+        <div class="row" *ngIf="post.vote">
+          <div class="offset-3 col-6" *ngIf="post.vote.positive">
+            <button class="w-100 h-75 p-2 my-2 green-bg">
+              {{postReplies[post.postType].positive[post.vote.voteType]}}
+            </button>
+          </div>
+          <div class="offset-3 col-6" *ngIf="!post.vote.positive">
+            <button class="w-100 h-75 p-2 my-2 red-bg">
+              {{postReplies[post.postType].negative[post.vote.voteType]}}
             </button>
           </div>
         </div>

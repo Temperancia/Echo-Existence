@@ -43,11 +43,11 @@ export class PostService {
       catchError(handleError('create', []))
     );
   }
-  upvote(postId: string): Observable<any> {
-    return this.http.get(API_ENDPOINT + 'posting/post/' + postId + '/upvote');
+  upvote(postId: string, type: string): Observable<any> {
+    return this.http.get(API_ENDPOINT + 'posting/post/' + postId + '/upvote?type=' + type);
   }
-  downvote(postId: string): Observable<any> {
-    return this.http.get(API_ENDPOINT + 'posting/post/' + postId + '/downvote');
+  downvote(postId: string, type: string): Observable<any> {
+    return this.http.get(API_ENDPOINT + 'posting/post/' + postId + '/downvote?type=' + type);
   }
   updateFeed(fluxPreference: any) {
     const request = 'origin=' + Object.keys(fluxPreference.flux).filter(flux => {
