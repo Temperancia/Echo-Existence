@@ -2,7 +2,6 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -38,11 +37,5 @@ module.exports = {
       path.join(__dirname, 'src'),
       {}
     )
-    /*
-    new UglifyJsPlugin({
-      sourceMap: true,
-      uglifyOptions: { ecma: 8 },
-    })
-    */
   ]
 }

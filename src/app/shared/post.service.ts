@@ -6,12 +6,31 @@ import {
  ,  catchError } from 'rxjs/operators';
 
 import { Post } from './../core/models/post';
-import { getId, handleError, API_ENDPOINT } from './../core/core.settings';
+import { getId, handleError, API_ENDPOINT, yesterday, now } from './../core/core.settings';
 import { Flux } from './../core/enums/flux.enum';
 
 @Injectable()
 export class PostService {
   feed = new BehaviorSubject<string>(null);
+  fluxPreference = {
+    flux: {
+      Tendance: true,
+      Friends: true,
+      DailyLife: true,
+      LifeStyle: true
+    },
+    type: {
+      Echo: true,
+      Rumour: true,
+      Inquiry: true,
+      Outrage: true
+    },
+    sort: '',
+    period: {
+      start: yesterday,
+      end: now
+    }
+  };
   constructor(private http: HttpClient) { }
   getPostTypeStyle (type: string): string {
     return type.toLowerCase() + '-bg';
@@ -43,7 +62,11 @@ export class PostService {
     this.feed.next(request);
   }
   getFeed(): Observable<Post[]> {
-    this.updateFeed(JSON.parse(localStorage.getItem('fluxPreference')));
+    let fluxPreference = JSON.parse(localStorage.getItem('fluxPreference'))
+    if (!fluxPreference) {
+      fluxPreference = this.fluxPreference;
+    }
+    this.updateFeed(fluxPreference);
     return this.feed.pipe(
       flatMap((request: string) => this.getPostsFromFlux(request)),
       tap(posts => console.log(posts))

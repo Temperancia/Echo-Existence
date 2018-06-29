@@ -6,12 +6,13 @@ import {ngExpressEngine} from '@nguniversal/express-engine';
 // Import module map for lazy loading
 import {provideModuleMap} from '@nguniversal/module-map-ngfactory-loader';
 
+import * as domino from 'domino';
 import * as express from 'express';
 import * as mongoose from 'mongoose';
 import * as helmet from 'helmet';
 import * as bodyParser from 'body-parser';
 import {join} from 'path';
-const api = require('./routes/api');
+import * as api from './routes/api';
 
 // Faster server renders w/ Prod mode (dev mode never needed)
 enableProdMode();
@@ -29,8 +30,14 @@ app.use(helmet());
 const PORT = process.env.PORT || 4000;
 const DIST_FOLDER = join(process.cwd(), 'dist');
 
+const win = domino.createWindow();
+global['window'] = win;
+global['document'] = win.document;
+global['navigator'] = win.navigator;
+global['CSS'] = undefined;
+
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
-const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('./dist/server/main.bundle');
+const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('./dist/echo-universe/main');
 
 // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
 app.engine('html', ngExpressEngine({

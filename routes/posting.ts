@@ -134,6 +134,8 @@ async function findPostsFromFluxes(request: any, thisUserId: string): Promise<an
   } else if (request.sort === 'Celebs') {
     sort['user.reputation.rank'] = -1;
     sort['createdOn'] = -1;
+  } else {
+    sort['createdOn'] = -1;
   }
   const posts = await Post.aggregate(pipeline)
   .lookup({

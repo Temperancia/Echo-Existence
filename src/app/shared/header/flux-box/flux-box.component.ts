@@ -41,34 +41,14 @@ export class FluxBoxComponent implements OnInit {
   rumour = PostType.Rumour;
   inquiry = PostType.Inquiry;
   outrage = PostType.Outrage;
-  fluxPreference = {
-    flux: {
-      Tendance: true,
-      Friends: true,
-      DailyLife: true,
-      LifeStyle: true
-    },
-    type: {
-      Echo: true,
-      Rumour: true,
-      Inquiry: true,
-      Outrage: true
-    },
-    sort: '',
-    period: {
-      start: yesterday,
-      end: now
-    }
-  };
+  fluxPreference: any;
+
   @Output() hide = new EventEmitter<void>();
 
   constructor(private postService: PostService) { }
 
   ngOnInit() {
-    const fluxPreference = localStorage.getItem('fluxPreference');
-    if (fluxPreference) {
-      this.fluxPreference = JSON.parse(fluxPreference);
-    }
+    this.fluxPreference = JSON.parse(localStorage.getItem('fluxPreference'));
   }
   public toggleFlux(flux: Flux): void {
     this.fluxPreference.flux[flux] = !this.fluxPreference.flux[flux];
