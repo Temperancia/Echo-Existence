@@ -60,8 +60,12 @@ export class FluxBoxComponent implements OnInit {
     this.fluxPreference.sort = this.fluxPreference.sort === sort ? '' : sort;
   }
   public updateFeed(): void {
-    this.fluxPreference.period.start = this.startDate;
-    this.fluxPreference.period.end = this.endDate;
+    if (this.startDate) {
+      this.fluxPreference.period.start = this.startDate;
+    }
+    if (this.endDate) {
+      this.fluxPreference.period.end = this.endDate;
+    }
     localStorage.setItem('fluxPreference', JSON.stringify(this.fluxPreference));
     this.postService.updateFeed(this.fluxPreference);
     this.hide.emit();

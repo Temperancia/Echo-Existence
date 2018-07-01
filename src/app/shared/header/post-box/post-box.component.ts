@@ -35,10 +35,25 @@ export class PostBoxComponent implements OnInit {
   flux = Flux;
   currentFlux: Flux;
   postType = PostType;
+  randomCatchyPool: string[] = [
+    'It\'s now',
+    'Just do it !',
+    'Watcha say ?',
+    'Time to roll',
+    'Lovely day to enlighten the world',
+    'Bam',
+    'Guess what'
+  ];
+  randomCatchy: string = '';
   constructor(private router: Router, private postService: PostService) {
   }
   ngOnInit() {
     this.currentPost = new Post;
+    this.randomCatchy = this.pickCatchy();
+  }
+  pickCatchy(): string {
+    const random = Math.ceil(Math.random() * this.randomCatchyPool.length);
+    return this.randomCatchyPool[random];
   }
   public onEmoji(emoji) {
     this.currentPost += emoji;

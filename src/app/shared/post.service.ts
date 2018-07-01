@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, ReplaySubject, zip, of, concat, race, combineLatest, merge } from 'rxjs';
 import {
    debounceTime, distinctUntilChanged, switchMap, map, flatMap, tap
  ,  catchError } from 'rxjs/operators';
@@ -35,7 +35,7 @@ export class PostService {
   getPostTypeStyle (type: string): string {
     return type.toLowerCase() + '-bg';
   }
-  create(post: Post) {
+  create(post: Post): Observable<any> {
     return this.http.post(API_ENDPOINT + 'posting/posts/create', {
       post: post
     })
@@ -44,32 +44,40 @@ export class PostService {
     );
   }
   upvote(postId: string, type: string): Observable<any> {
-    return this.http.get(API_ENDPOINT + 'posting/post/' + postId + '/upvote?type=' + type);
+    const response = this.http.get(API_ENDPOINT + 'posting/post/' + postId + '/upvote?type=' + type);
+    response.subscribe(_ => this.updateFeed());
+    return response;
   }
   downvote(postId: string, type: string): Observable<any> {
-    return this.http.get(API_ENDPOINT + 'posting/post/' + postId + '/downvote?type=' + type);
+    const response = this.http.get(API_ENDPOINT + 'posting/post/' + postId + '/downvote?type=' + type);
+    response.subscribe(_ => this.updateFeed());
+    return response;
   }
-  updateFeed(fluxPreference: any) {
-    const request = 'origin=' + Object.keys(fluxPreference.flux).filter(flux => {
-      return fluxPreference.flux[flux];
-    }).join('+')
-    + '&postType=' + Object.keys(fluxPreference.type).filter(type => {
-      return fluxPreference.type[type];
-    }).join('+')
+  cancel(postId: string): Observable<any> {
+    const response = this.http.get(API_ENDPOINT + 'posting/post/' + postId + '/cancel');
+    response.subscribe(_ => this.updateFeed());
+    return response;
+  }
+  getFluxPreference(): string {
+    let fluxPreference = JSON.parse(localStorage.getItem('fluxPreference'))
+    if (!fluxPreference) {
+      fluxPreference = this.fluxPreference;
+    }
+    return fluxPreference;
+  }
+  updateFeed(fluxPreference: any = this.getFluxPreference()) {
+    const request =
+    'origin=' + Object.keys(fluxPreference.flux).filter(flux => fluxPreference.flux[flux]).join('+')
+    + '&postType=' + Object.keys(fluxPreference.type).filter(type => fluxPreference.type[type]).join('+')
     + '&sort=' + fluxPreference.sort
     + '&startDate=' + fluxPreference.period.start
     + '&endDate=' + fluxPreference.period.end;
     this.feed.next(request);
   }
   getFeed(): Observable<Post[]> {
-    let fluxPreference = JSON.parse(localStorage.getItem('fluxPreference'))
-    if (!fluxPreference) {
-      fluxPreference = this.fluxPreference;
-    }
-    this.updateFeed(fluxPreference);
+    this.updateFeed();
     return this.feed.pipe(
       flatMap((request: string) => this.getPostsFromFlux(request)),
-      tap(posts => console.log(posts))
     );
   }
   private convertDates(posts: Post[]): Post[] {

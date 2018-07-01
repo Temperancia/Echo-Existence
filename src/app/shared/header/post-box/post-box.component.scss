@@ -1,8 +1,5 @@
 .post-box {
-  position: absolute;
-  right: 0;
-  width: 300px;
-  height: 400px;
+  border: 1px lightgrey solid;
   textarea {
     position: relative;
     height: 200px;
@@ -17,5 +14,8 @@
     position: absolute;
     bottom: 0;
     right: 0;
+  }
+  .catchy {
+    font-family: 'Modum';
   }
 }

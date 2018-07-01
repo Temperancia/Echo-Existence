@@ -1,4 +1,5 @@
 export class Post {
+  _id: string;
   originType: string;
   originName: string;
   postType: string;
@@ -9,6 +10,15 @@ export class Post {
   reputation: {
     upvotes: number,
     downvotes: number
+  };
+  votes: [{
+    voter: string,
+    positive: Boolean,
+    voteType: Number
+  }];
+  vote: {
+    positive: Boolean,
+    voteType: Number
   };
   /*
   constructor(id, name, content, createdOn, reputation) {

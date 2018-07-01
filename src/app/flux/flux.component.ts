@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { PostService } from './../shared/post.service';
 import { Flux } from './../core/enums/flux.enum';
@@ -69,8 +70,7 @@ export class FluxComponent implements OnInit {
       ]
     }
   };
-  constructor(private router: Router, private postService: PostService) {
-  }
+  constructor(private router: Router, private postService: PostService) { }
   ngOnInit() {
     this.launchFeed();
   }
@@ -89,13 +89,15 @@ export class FluxComponent implements OnInit {
     return this.toggle[element].find(member => member === postId);
   }
   upvote(postId: string, type: string) {
-    this.postService.upvote(postId, type).subscribe(_ => {
-      refresh(this.router);
-    });
+    this.togglePostElement('postVote', postId);
+    this.postService.upvote(postId, type);
   }
   downvote(postId: string, type: string) {
-    this.postService.downvote(postId, type).subscribe(_ => {
-      refresh(this.router);
-    });
+    this.togglePostElement('postVote', postId);
+    this.postService.downvote(postId, type);
+  }
+  cancelVote(postId: string) {
+    this.togglePostElement('postVote', postId);
+    this.postService.cancel(postId);
   }
 }

@@ -1,32 +1,56 @@
 <!DOCTYPE html>
-<div class="post-box" [@itemAnim]>
-  <button type="button" (click)="emojis.show()">Emojis</button>
+<div class="container-fluid post-box my-2 p-1" [@itemAnim]>
+  <!--<button type="button" (click)="emojis.show()">Emojis</button>-->
   <div class="row">
-    <div class="col-3">
-      <button [ngClass]="currentFlux === flux.Tendance ? 'btn-primary' : ''" (click)="toggle(flux.Tendance);">
-        Tendance
-      </button>
-    </div>
-    <div class="col-3">
-      <button [ngClass]="currentFlux === flux.DailyLife ? 'btn-primary' : ''" (click)="toggle(flux.DailyLife);">
-        Daily Life
-      </button>
-    </div>
-    <div class="col-3">
-      <button [ngClass]="currentFlux === flux.LifeStyle ? 'btn-primary' : ''" (click)="toggle(flux.LifeStyle);">
-        Life Style
-      </button>
-    </div>
-    <div class="col-3">
-      <button [ngClass]="currentFlux === flux.Friends ? 'btn-primary' : ''" (click)="toggle(flux.Friends);">
-        Friends
-      </button>
+    <div class="offset-4 col-8">
+      <h2 class="text-center catchy">
+        {{randomCatchy}}
+      </h2>
     </div>
   </div>
-  <textarea class="form-control" placeholder="Say something already" [(ngModel)]="currentPost.content"></textarea>
+  <div class="row">
+    <div class="col-4 pt-2 px-1">
+      <div class="container-fluid">
+        <div class="row">
+          <button class="col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6 my-2" [ngClass]="currentFlux === flux.Tendance ? 'tendance-bg' : ''" (click)="toggle(flux.Tendance);">
+            Tendance
+          </button>
+        </div>
+        <div class="row">
+          <button class="col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6 my-2" [ngClass]="currentFlux === flux.DailyLife ? 'dailylife-bg' : ''" (click)="toggle(flux.DailyLife);">
+            Daily Life
+          </button>
+        </div>
+        <div class="row">
+          <button class="col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6 my-2" [ngClass]="currentFlux === flux.LifeStyle ? 'lifestyle-bg' : ''" (click)="toggle(flux.LifeStyle);">
+            Life Style
+          </button>
+        </div>
+        <div class="row">
+          <button class="col-12 offset-md-2 col-md-8 offset-lg-3 col-lg-6 my-2" [ngClass]="currentFlux === flux.Friends ? 'friends-bg' : ''" (click)="toggle(flux.Friends);">
+            Friends
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-8 col-md-7 px-1">
+      <textarea class="form-control" placeholder="Say something already" [(ngModel)]="currentPost.content"></textarea>
+      <div class="row mt-2">
+        <div class="col-12 col-sm-3">
+          <button class="w-100" (click)="post(postType.Echo)">Echo</button>
+        </div>
+        <div class="col-12 col-sm-3">
+          <button class="w-100" (click)="post(postType.Rumour)">Rumour</button>
+        </div>
+        <div class="col-12 col-sm-3">
+          <button class="w-100" (click)="post(postType.Inquiry)">Inquiry</button>
+        </div>
+        <div class="col-12 col-sm-3">
+          <button class="w-100" (click)="post(postType.Outrage)">Outrage</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <app-emojis ref-emojis class='emojis' (onEmoji)='onEmoji($event)'></app-emojis>
-  <button (click)="post(postType.Echo)">Echo</button>
-  <button (click)="post(postType.Rumour)">Rumour</button>
-  <button (click)="post(postType.Inquiry)">Inquiry</button>
-  <button (click)="post(postType.Outrage)">Outrage</button>
+
 </div>

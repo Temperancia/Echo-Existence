@@ -16,9 +16,9 @@ posting.post('/posts/create', async (req, res) => {
     author: req.decoded.id,
     reputation: {
       upvotes: 0,
-      downvotes: 0,
-      votes: []
+      downvotes: 0
     },
+    votes: [],
     createdOn: Date.now()
   };
   console.log('new Post :', newPost);
@@ -51,6 +51,19 @@ posting.get('/posts/get', async (req, res) => {
   }
 });
 
+posting.get('/post/:postId/get', async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId)
+    .select('originType originName content reputation createdOn')
+    .populate('author', 'fullName reputation');
+    // check if member inside trust
+    return res.json(post);
+  } catch(err) {
+    console.log(err);
+    res.status(500).json('fail');
+  }
+});
+
 posting.get('/post/:postId/upvote', async (req, res) => {
   const error = await vote(req.decoded.id, req.params.postId, req.query.type, true)
   return error ? res.status(500).json(error) : res.json({});
@@ -61,18 +74,44 @@ posting.get('/post/:postId/downvote', async (req, res) => {
   return error ? res.status(500).json(error) : res.json({});
 });
 
+posting.get('/post/:postId/cancel', async (req, res) => {
+  const thisUserId = req.decoded.id;
+  const postId = req.params.postId;
+  try {
+    const post = await Post.findById(postId)
+    .select('author votes reputation');
+    const vote = post.votes.find(vote => vote.voter.equals(thisUserId));
+    if (!vote) {
+      return res.status(500).json('Logical error');
+    }
+    console.log(vote);
+    await Post.findByIdAndUpdate(postId, {
+      $pull: {votes: {
+        voter: Types.ObjectId(thisUserId)
+      }},
+      $inc: vote.positive
+      ? {'reputation.upvotes': -1}
+      : {'reputation.downvotes': -1}
+    });
+    return res.json({});
+  } catch(err) {
+    console.log(err);
+    return res.status(500).json('DB error');
+  }
+});
+
 async function vote(voterId: string, postId: string, voteType: string, upvote: boolean): Promise<string> {
   try {
     const post = await Post.findById(postId)
-    .select('originType originName author reputation');
+    .select('originType originName author reputation votes');
     if (post.author.equals(voterId)) {
       throw 'Cannot upvote your own post';
     }
-    if (post.reputation.votes.find(vote => vote.voter.equals(voterId))) {
+    if (post.votes.find(vote => vote.voter.equals(voterId))) {
       throw 'Cannot upvote anymore';
     }
     await Post.findByIdAndUpdate(postId, {
-      $push: {'reputation.votes': {
+      $push: {'votes': {
         voter: Types.ObjectId(voterId),
         positive: upvote,
         voteType: Number(voteType)
@@ -153,7 +192,7 @@ async function findPostsFromFluxes(request: any, thisUserId: string): Promise<an
     vote: {
       $arrayElemAt: [{
         $filter: {
-          input: '$reputation.votes',
+          input: '$votes',
           as: 'vote',
           cond: {$eq: ['$$vote.voter', Types.ObjectId(thisUserId)]}
         }},

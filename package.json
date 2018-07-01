@@ -8,7 +8,7 @@
     "test": "mocha --timeout 10000 --require ts-node/register test/*.ts",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:client-and-server-bundles": "ng build --prod && ng run echo-universe:build --output-hashing=false",
+    "build:client-and-server-bundles": "ng build --prod && ng run echo-universe:build",
     "build:prerender": "npm run build:client-and-server-bundles && npm run webpack:server && npm run generate:prerender",
     "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
     "generate:prerender": "cd dist && node prerender",

@@ -45,6 +45,11 @@ export class HeaderComponent implements OnInit {
     this.isAnonymous = this.authenticationService.isAnonymous();
   }
 
+  navigate(url: string): void {
+    this.toggle('none');
+    this.router.navigateByUrl(url);
+  }
+
   toggle(element: string): void {
     const state = this.toggles[element];
     for (const toggle in this.toggles) {

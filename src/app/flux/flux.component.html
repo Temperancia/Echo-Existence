@@ -1,18 +1,16 @@
 <!DOCTYPE html>
-<div class="container-fluid">
+<div class="container-fluid flux">
   <app-header></app-header>
   <div *ngFor="let post of feed$ | async">
-    <div class="card my-2" [ngClass]="postService.getPostTypeStyle(post.originName)">
+    <div class="card my-4" [ngClass]="postService.getPostTypeStyle(post.originName)">
       <div class="d-flex d-sm-none row card-header" *ngIf="showPostElement('postHeader', post._id)">
-        <div class="col-6 pl-0 pr-1 text-center">
+        <div class="col-12">
           <div>
             {{post.author.fullName}}
           </div>
           <div>
             R {{post.author.reputation.rank}}
           </div>
-        </div>
-        <div class="col-6 pl-1 pr-0 info-block bl">
           <div>
             {{post.reputation.upvotes}} Ups / {{post.reputation.downvotes}} Downs
           </div>
@@ -21,10 +19,27 @@
           </div>
         </div>
       </div>
+      <div class="d-none d-sm-flex row card-header">
+        <div class="col-6 text-center">
+          <div>
+            {{post.author.fullName}}
+          </div>
+          <div>
+            R {{post.author.reputation.rank}}
+          </div>
+        </div>
+        <div class="col-6 info-block bl">
+          <div>
+            {{post.reputation.upvotes}} Ups / {{post.reputation.downvotes}} Downs
+          </div>
+          <div>
+            {{post.createdOn}}
+          </div>
+        </div>
+      </div>
+      <img class="d-block d-sm-none mx-auto" src="assets/img/arrow_up.svg" (click)="togglePostElement('postHeader', post._id)" *ngIf="!showPostElement('postHeader', post._id)">
+      <img class="d-block d-sm-none mx-auto" src="assets/img/arrow_down.svg" (click)="togglePostElement('postHeader', post._id)" *ngIf="showPostElement('postHeader', post._id)">
       <div class="card-body">
-        <button class="d-block d-sm-none mx-auto my-2 default-bg info" (click)="togglePostElement('postHeader', post._id)">
-          i
-        </button>
         <div class="row">
           <div class="col-12">
             <div class="title">
@@ -37,10 +52,9 @@
             <div class="py-3" [innerHTML]="post.content"></div>
           </div>
         </div>
-        <button class="d-block mx-auto my-2 default-bg info" (click)="togglePostElement('postVote', post._id)" *ngIf="post.author._id !== id">
-          v
-        </button>
       </div>
+      <img class="d-block mx-auto" src="assets/img/arrow_down.svg" (click)="togglePostElement('postVote', post._id)" *ngIf="post.author._id !== id && !showPostElement('postVote', post._id)">
+      <img class="d-block mx-auto" src="assets/img/arrow_up.svg" (click)="togglePostElement('postVote', post._id)" *ngIf="post.author._id !== id && showPostElement('postVote', post._id)">
       <div class="card-footer" *ngIf="showPostElement('postVote', post._id)">
         <div class="row" *ngIf="post.author._id !== id && !post.vote">
           <div class="col-6" *ngFor="let positiveVote of postReplies[post.postType].positive">
@@ -56,12 +70,12 @@
         </div>
         <div class="row" *ngIf="post.vote">
           <div class="offset-3 col-6" *ngIf="post.vote.positive">
-            <button class="w-100 h-75 p-2 my-2 green-bg">
+            <button class="w-100 h-75 p-2 my-2 green-bg" (click)="cancelVote(post._id)">
               {{postReplies[post.postType].positive[post.vote.voteType]}}
             </button>
           </div>
           <div class="offset-3 col-6" *ngIf="!post.vote.positive">
-            <button class="w-100 h-75 p-2 my-2 red-bg">
+            <button class="w-100 h-75 p-2 my-2 red-bg" (click)="cancelVote(post._id)">
               {{postReplies[post.postType].negative[post.vote.voteType]}}
             </button>
           </div>

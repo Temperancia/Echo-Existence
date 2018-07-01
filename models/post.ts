@@ -18,13 +18,13 @@ const postSchema = new Schema({
   },
   reputation: {
     upvotes: Number,
-    downvotes: Number,
-    votes: [{
-      voter: Schema.Types.ObjectId,
-      positive: Boolean,
-      voteType: Number
-    }]
+    downvotes: Number
   },
+  votes: [{
+    voter: Schema.Types.ObjectId,
+    positive: Boolean,
+    voteType: Number
+  }],
   reports: Number,
   createdOn: Date,
   updatedOn: {
