@@ -38,14 +38,15 @@
       <div class="row mt-2">
         <div class="col-12 col-sm-3">
           <button class="w-100" (click)="post(postType.Echo)">Echo</button>
+          <button>+</button>
         </div>
-        <div class="col-12 col-sm-3">
+        <div class="col-12 col-sm-3" *ngIf="show.postTypes">
           <button class="w-100" (click)="post(postType.Rumour)">Rumour</button>
         </div>
-        <div class="col-12 col-sm-3">
+        <div class="col-12 col-sm-3" *ngIf="show.postTypes">
           <button class="w-100" (click)="post(postType.Inquiry)">Inquiry</button>
         </div>
-        <div class="col-12 col-sm-3">
+        <div class="col-12 col-sm-3" *ngIf="show.postTypes">
           <button class="w-100" (click)="post(postType.Outrage)">Outrage</button>
         </div>
       </div>
