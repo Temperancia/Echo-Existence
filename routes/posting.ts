@@ -111,7 +111,7 @@ async function vote(voterId: string, postId: string, voteType: string, upvote: b
       throw 'Cannot upvote anymore';
     }
     await Post.findByIdAndUpdate(postId, {
-      $push: {'votes': {
+      $push: {votes: {
         voter: Types.ObjectId(voterId),
         positive: upvote,
         voteType: Number(voteType)
