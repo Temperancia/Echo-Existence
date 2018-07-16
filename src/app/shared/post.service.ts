@@ -96,6 +96,7 @@ export class PostService {
     .pipe(
       map(posts => {
         posts = this.convertDates(posts);
+        console.log(posts);
         return posts;
       })
     );

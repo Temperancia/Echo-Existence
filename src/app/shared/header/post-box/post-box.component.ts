@@ -45,6 +45,9 @@ export class PostBoxComponent implements OnInit {
     'Guess what'
   ];
   randomCatchy: string = '';
+  show: any = {
+    postTypes: false
+  };
   constructor(private router: Router, private postService: PostService) {
   }
   ngOnInit() {

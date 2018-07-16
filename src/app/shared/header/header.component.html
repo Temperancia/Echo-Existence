@@ -10,13 +10,13 @@
       <div class="col-md-2 d-none d-md-block">
         <img class="w-100" src="assets/img/logo_width.png">
       </div>
-      <h2 class="col-md-2 d-none d-md-block p-2 text-center" (click)="this.toggle('echo')">
+      <h2 class="col-md-2 d-none d-md-block p-2 text-center" (click)="this.toggle('echo')" *ngIf="!isAnonymous">
         Echo
       </h2>
-      <h2 class="col-md-2 d-none d-md-block p-2 text-center" (click)="navigate('/my-profile')">
+      <h2 class="col-md-2 d-none d-md-block p-2 text-center" (click)="navigate('/my-profile')" *ngIf="!isAnonymous">
         Profile
       </h2>
-      <h2 class="col-md-2 d-none d-md-block p-2 text-center" (click)="navigate('/trusts')">
+      <h2 class="col-md-2 d-none d-md-block p-2 text-center" (click)="navigate('/trusts')" *ngIf="!isAnonymous">
         Trusts
       </h2>
       <h2 class="col-md-2 d-none d-md-block p-2 text-center" (click)="navigate('/flux')">
