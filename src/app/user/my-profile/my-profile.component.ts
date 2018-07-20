@@ -10,10 +10,23 @@ import {UserService} from './../user.service';
 export class MyProfileComponent implements OnInit {
   public friends: User[];
   public user: User;
+  public toggles = {
+    me: true,
+    friends: false,
+    posts: false,
+    history: false
+  };
   constructor(private userService: UserService) { }
   ngOnInit() {
     this.getFriends();
     this.getProfile();
+  }
+  toggle(element: string): void {
+    const state = this.toggles[element];
+    for (const toggle in this.toggles) {
+      this.toggles[toggle] = false;
+    }
+    this.toggles[element] = !state;
   }
   public getFriends(): void {
     this.userService.getFriends()

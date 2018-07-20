@@ -1,17 +1,28 @@
 <!DOCTYPE html>
 <div class="container-fluid content">
   <app-header></app-header>
-  <div class="row">
-    <div class="col-1 border border-light">
+  <div class="row mb-3">
+    <div class="col-3 py-2 border border-light text-center" (click)="toggle('me')">
       Me
     </div>
+    <div class="col-3 py-2 border border-light text-center" (click)="toggle('friends')">
+      Friends
+    </div>
+    <div class="col-3 py-2 border border-light text-center" (click)="toggle('posts')">
+      Posts
+    </div>
+    <div class="col-3 py-2 border border-light text-center" (click)="toggle('history')">
+      History
+    </div>
   </div>
-  <div class="row">
-    <div class="col-4"><img class="w-100" src="/assets/img/profile.png">
-      <div class="p-4 mt-1 card">
+  <div class="row" *ngIf="toggles.me">
+    <div class="col-4">
+      <img class="w-100" src="/assets/img/profile.png">
+    </div>
+    <div class="col-8">
+      <div class="card">
         <div class="card-body">
-          <div class="card">**Presentation of me**</div>
-          <div>{{user?.fullName}}</div>
+          <div class="card">{{user?.fullName}}</div>
           <div>Reputation : rank {{user?.reputation.rank}}</div>
           <div>Reputation of last 10 posts</div>
           <div>Followed by XXX</div>
@@ -19,14 +30,18 @@
         </div>
       </div>
     </div>
-    <div class="col-5">
-      <app-feed-my-profile></app-feed-my-profile>
-    </div>
+  </div>
+  <div class="row" *ngIf="toggles.friends">
     <div class="col-3 friend-list">
       <div class="text-center" *ngFor="let friend of friends" [style.background-color]="getReputation(friend)">
         <h2>{{friend.name}}</h2><img class="w-50" src="/assets/img/profile.png">
         <h5>{{friend.reputation}}</h5>
       </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="toggles.posts">
+    <div class="col-5">
+      <app-feed-my-profile></app-feed-my-profile>
     </div>
   </div>
   <app-footer></app-footer>
