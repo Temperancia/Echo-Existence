@@ -6,10 +6,12 @@ import { FluxModule } from './../flux/flux.module';
 import { AuthenticationService } from './authentication.service';
 
 import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     SharedModule,

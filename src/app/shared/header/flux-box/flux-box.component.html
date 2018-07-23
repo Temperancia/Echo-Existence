@@ -44,8 +44,13 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <input class="d-none d-sm-block my-2" placeholder="Look for specific authors or contents"/>
-        <input class="d-sm-none my-2" placeholder="Authors / Contents"/>
+        <input class="d-none d-sm-block my-2" placeholder="Look for specific @author or #content" name="tags" [(ngModel)]="tags" (click)="show.tags = true" (keyup)="search($event, tags)"/>
+        <input class="d-sm-none my-2" placeholder="@Author / #Content" [(ngModel)]="tags"/>
+      </div>
+    </div>
+    <div class="row" *ngIf="show.tags">
+      <div class="col-12">
+
       </div>
     </div>
     <div class="row">

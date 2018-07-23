@@ -1,9 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Observable } from 'rxjs';
 import { DatepickerOptions } from 'ng2-datepicker';
-import { PostService } from './../../post.service';
-import { Flux } from './../../../core/enums/flux.enum';
-import { PostType } from './../../../core/enums/post-type.enum';
-import { yesterday, now } from './../../../core/core.settings';
+import { PostService } from '../../post.service';
+import { Flux } from '@app/core/enums/flux.enum';
+import { PostType } from '@app/core/enums/post-type.enum';
+import { yesterday, now } from '@app/core/core.settings';
 
 @Component({
   selector: 'app-flux-box',
@@ -13,6 +14,9 @@ import { yesterday, now } from './../../../core/core.settings';
 export class FluxBoxComponent implements OnInit {
   startDate: Date;
   endDate: Date;
+  tags: string;
+  newTag: string;
+  foundTags$: Observable<string>;
   startCalendarOptions: DatepickerOptions = {
     displayFormat: 'MMM D[,] YYYY',
     useEmptyBarTitle: false,
@@ -42,6 +46,9 @@ export class FluxBoxComponent implements OnInit {
   inquiry = PostType.Inquiry;
   outrage = PostType.Outrage;
   fluxPreference: any;
+  show: any = {
+    tags: false
+  };
 
   @Output() hide = new EventEmitter<void>();
 
@@ -59,7 +66,20 @@ export class FluxBoxComponent implements OnInit {
   public switchSort(sort): void {
     this.fluxPreference.sort = this.fluxPreference.sort === sort ? '' : sort;
   }
+  public search(event: KeyboardEvent, tags: string): void {
+    const char = tags.slice(-1);
+    if (!this.newTag) {
+      if (char !== '@' && char !== '#') {
+        this.tags = '';
+        return;
+      }
+      this.newTag = char === '@' ? 'author' : 'content';
+      return;
+    }
+
+  }
   public updateFeed(): void {
+    console.log(this.tags);
     if (this.startDate) {
       this.fluxPreference.period.start = this.startDate;
     }

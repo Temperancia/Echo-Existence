@@ -5,10 +5,10 @@ import {
    debounceTime, distinctUntilChanged, switchMap
  } from 'rxjs/operators';
 
-import { UserService } from './../../../user/user.service';
-import { FriendService } from './../../../requests/friend.service';
-import { User } from './../../../core/models/user';
-import { refresh } from './../../../core/core.settings';
+import { UserService } from '@app/user/user.service';
+import { FriendService } from '@app/requests/friend.service';
+import { User } from '@app/core/models/user';
+import { refresh } from '@app/core/core.settings';
 @Component({
   selector: 'app-search-box',
   templateUrl: 'search-box.component.html',

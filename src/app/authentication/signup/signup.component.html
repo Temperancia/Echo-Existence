@@ -1,0 +1,204 @@
+<div class="container p-3 blocks">
+  <div class="row body">
+    <div class="col-12">
+      <div class="block">
+        <h3 class="modum text-center">
+          Feel at home
+          <span class="clickit" (click)="feel=!feel;" *ngIf="!feel">+</span>
+          <span class="clickit" (click)="feel=!feel;" *ngIf="feel">x</span>
+        </h3>
+        <div *ngIf="feel">
+          <p>
+            Thanks to its lively community, Echo provides you the unique opportunity to create your own world along fellows from the world.
+          </p>
+          <p>
+            Share, enjoy and communicate everything you want.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="block">
+        <h3 class="modum text-center">
+          Make the most of your optics
+          <span (click)="know=!know;" *ngIf="!know">+</span>
+          <span (click)="know=!know;" *ngIf="know">x</span>
+        </h3>
+        <div *ngIf="know">
+          <p>
+            Enter a world where information is yours. Take back control of your life and start gathering people inside your own trust.
+          </p>
+          <p>
+            Or perhaps you will prefer a vivid flux providing you everything you need.
+          </p>
+          <p>
+            Either way, lets start together your journey today !
+          </p>
+        </div>
+      </div>
+      <div class="block">
+        <h3 class="modum text-center">
+          fama inodora est, doxa non est
+          <span (click)="motto=!motto;" *ngIf="!motto">+</span>
+          <span (click)="motto=!motto;" *ngIf="motto">x</span>
+        </h3>
+        <div *ngIf="motto">
+          <p>
+            "Fame does not smell, reputation does" is the motto here ! Meet success or disgrace, it's up to you.
+          </p>
+          <p>
+            Each post you make will influence your reputation score, calculated from several sources.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="block">
+        <h3 class="modum text-center">
+          Dislike the spotlight ?
+          <span (click)="spotlight=!spotlight;" *ngIf="!spotlight">+</span>
+          <span (click)="spotlight=!spotlight;" *ngIf="spotlight">x</span>
+        </h3>
+        <div *ngIf="spotlight">
+          <p>
+            Here in Echo, you will find comforting having the choice between being under the spotlight and working from the shadows.
+          </p>
+          <p>
+            We understand and respect your choice, click this <a routerLink='/flux'>link</a> and we will grant you an anonymous access.
+            <span class="d-none d-md-block">
+              Find below the specifities between a "pub" and an "ano" :
+            </span>
+          </p>
+          <div class="container-fluid d-none d-sm-block">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr class="d-flex">
+                  <th class="col-4">
+                    Type
+                  </th>
+                  <th class="col-4">
+                    Public
+                  </th>
+                  <th class="col-4">
+                    Anonymous
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="d-flex">
+                  <th class="col-4">
+                    Data Collection
+                  </th>
+                  <td class="col-4">
+                    Everything you feel free to give us, but please do tell us your name at least.
+                  </td>
+                  <td class="col-4">
+                    Nothing. Really.
+                  </td>
+                </tr>
+                <tr class="d-flex">
+                  <th class="col-4">
+                    Access & Posting
+                  </th>
+                  <td class="col-4">
+                    Everywhere.
+                  </td>
+                  <td class="col-4">
+                    Flux only.
+                  </td>
+                </tr>
+                <tr class="d-flex">
+                  <th class="col-4">
+                    Friends
+                  </th>
+                  <td class="col-4">
+                    Yes !
+                  </td>
+                  <td class="col-4">
+                    No ...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <img class="w-100" src="assets/img/logo_width.png" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <h3 class="text-center" routerLink="/login"><u>Already member ?</u></h3>
+    </div>
+  </div>
+  <div id="subscribe" class="row">
+  <div class="col-12 offset-md-2 col-md-8">
+    <div class="container py-4 border border-light">
+      <div class="row my-3">
+        <div class="col-5">
+          <button class="w-100 default-bg" (click)="public = true">Publically</button>
+        </div>
+        <div class="col-2 text-center">
+          or
+        </div>
+        <div class="col-5">
+          <button class="w-100 default-bg" (click)="public = false">Eminently</button>
+        </div>
+      </div>
+      <div class="pt-3 border-top rounded-0 border-light" *ngIf="public">
+        <form class="subscribe" name="publicSubscriptionForm" (ngSubmit)="subscribe(true)">
+          <div class="form-group">
+            <label for="newPublicFirstname">Firstname</label>
+            <input class="pl-3 mt-2 w-100" id="newPublicFirstname" type="text" name="newPublicFirstname" placeholder="Ex: Jahn" [(ngModel)]="newPublicUser.firstName">
+          </div>
+          <div class="form-group">
+            <label for="newPublicLastName">LastName</label>
+            <input class="pl-3 mt-2 w-100" id="newPublicLastName" type="text" name="newPublicLastName" placeholder="Ex: Doe" [(ngModel)]="newPublicUser.lastName">
+          </div>
+          <div class="form-group">
+            <label for="newPublicEmail">Email</label>
+            <input class="pl-3 mt-2 w-100" id="newPublicEmail" type="email" name="newPublicEmail" placeholder="Ex: jahn.doe@mail.com" [(ngModel)]="newPublicUser.email">
+          </div>
+          <div class="form-group">
+            <label for="newPublicPassword">Password</label>
+            <input class="pl-3 mt-2 w-100" id="newPublicPassword" type="password" name="newPublicPassword" [(ngModel)]="newPublicUser.password">
+          </div>
+          <div class="form-group">
+            <label for="newPublicConfirmPassword">Confirm password</label>
+            <input class="pl-3 mt-2 w-100" id="newPublicConfirmPassword" type="password" name="newPublicConfirmPassword" [(ngModel)]="newPublicUser.confirmPassword">
+          </div>
+          <div class="text-center">
+            <button class="m-2 default-bg">Get public</button>
+          </div>
+        </form>
+      </div>
+      <div class="pt-3 border-top rounded-0 border-light" *ngIf="!public">
+        <form class="subscribe" name="eminentSubscriptionForm" (ngSubmit)="subscribe(false)">
+          <div class="form-group">
+            <label for="newEminentUsername">Username</label>
+            <input class="pl-3 mt-2 w-100" id="newEminentUsername" type="text" name="newEminentUsername" placeholder="Ex: Jahnie" [(ngModel)]="newEminentUser.userName">
+          </div>
+          <div class="form-group">
+            <label for="newEminentEmail">Email</label>
+            <input class="pl-3 mt-2 w-100" id="newEminentEmail" type="email" name="newEminentEmail" placeholder="Ex: jahnie.doe@mail.com" [(ngModel)]="newEminentUser.email">
+          </div>
+          <div class="form-group">
+            <label for="newEminentPassword">Password</label>
+            <input class="pl-3 mt-2 w-100" id="newPassword" type="password" name="newEminentPassword" [(ngModel)]="newEminentUser.password">
+          </div>
+          <div class="form-group">
+            <label for="newEminentConfirmPassword">Confirm password</label>
+            <input class="pl-3 mt-2 w-100" id="newEminentConfirmPassword" type="password" name="newEminentConfirmPassword" [(ngModel)]="newEminentUser.confirmPassword">
+          </div>
+          <div class="text-center">
+            <button class="m-2 default-bg">Get eminent</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

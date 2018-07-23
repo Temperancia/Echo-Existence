@@ -1,0 +1,53 @@
+@import './../../core/global.scss';
+.blocks {
+  .body {
+    .block {
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      color: white;
+      background-color: $rendeez;
+      line-height: 20px;
+      border-radius: 5px;
+      opacity: 0.9;
+      h3 {
+        border-bottom: #ccc solid 1px;
+        span {
+          color: #ccc;
+          cursor: pointer;
+          -webkit-user-select: none; /* Safari */
+          -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* IE10+/Edge */
+          user-select: none; /* Standard */
+        }
+        .clickit {
+          padding: 0 7px;
+          border-radius: 100%;
+          border: $yorel 2px solid;
+        }
+      }
+      p {
+        padding: 5px;
+        margin-top: 10px;
+      }
+      th {
+        font-family: 'Modum';
+        font-size: 24px;
+      }
+      th, td {
+        background-color: $black;
+        text-align: center;
+        vertical-align: middle;
+      }
+    }
+  }
+}
+.subscribe {
+  .header {
+    background: none;
+  }
+  button {
+    height: 100px;
+    font-size: 30px;
+    line-height: 30px;
+  }
+}

@@ -22,7 +22,7 @@ export function getId(): string {
 export function handleError<T> (operation = 'operation', result?: T) {
   return (error: any): Observable<T> => {
     console.log(error);
-    return of(result as T);
+    return Observable.throw(error.message); 
   };
 }
 export function refresh(router: Router) {
