@@ -15,7 +15,8 @@ export class FluxBoxComponent implements OnInit {
   startDate: Date;
   endDate: Date;
   tags: string;
-  newTag: string;
+  tagList: string[] = [];
+  currentTag: string = '';
   foundTags$: Observable<string>;
   startCalendarOptions: DatepickerOptions = {
     displayFormat: 'MMM D[,] YYYY',
@@ -67,16 +68,26 @@ export class FluxBoxComponent implements OnInit {
     this.fluxPreference.sort = this.fluxPreference.sort === sort ? '' : sort;
   }
   public search(event: KeyboardEvent, tags: string): void {
+    console.log(this.tagList)
     const char = tags.slice(-1);
-    if (!this.newTag) {
+    if (this.currentTag === '') {
       if (char !== '@' && char !== '#') {
         this.tags = '';
         return;
       }
-      this.newTag = char === '@' ? 'author' : 'content';
-      return;
     }
-
+    if (event.key === 'Enter') {
+      this.tagList.push(this.currentTag);
+      this.currentTag = '';
+    } else if (event.key === 'Backspace') {
+      if (this.currentTag === '' && this.tagList.length > 0) {
+        this.tagList.pop();
+      } else if (this.currentTag.length > 0) {
+        this.currentTag = this.currentTag.slice(-1);
+      }
+    } else {
+      this.currentTag += char;
+    }
   }
   public updateFeed(): void {
     console.log(this.tags);
