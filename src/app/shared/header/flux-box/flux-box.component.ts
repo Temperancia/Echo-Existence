@@ -15,8 +15,9 @@ export class FluxBoxComponent implements OnInit {
   startDate: Date;
   endDate: Date;
   tags: string;
-  tagList: string[] = [];
+  tagList: number[] = [0];
   currentTag: string = '';
+  tagPosition: number = 0;
   foundTags$: Observable<string>;
   startCalendarOptions: DatepickerOptions = {
     displayFormat: 'MMM D[,] YYYY',
@@ -67,30 +68,46 @@ export class FluxBoxComponent implements OnInit {
   public switchSort(sort): void {
     this.fluxPreference.sort = this.fluxPreference.sort === sort ? '' : sort;
   }
-  public search(event: KeyboardEvent, tags: string): void {
-    console.log(this.tagList)
-    const char = tags.slice(-1);
-    if (this.currentTag === '') {
-      if (char !== '@' && char !== '#') {
-        this.tags = '';
-        return;
-      }
-    }
+  public onKeyUp(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
-      this.tagList.push(this.currentTag);
-      this.currentTag = '';
-    } else if (event.key === 'Backspace') {
-      if (this.currentTag === '' && this.tagList.length > 0) {
-        this.tagList.pop();
-      } else if (this.currentTag.length > 0) {
-        this.currentTag = this.currentTag.slice(-1);
+      if (this.currentTag !== '') {
+        this.currentTag = '';
+        this.tagPosition = this.tags.length;
+        this.tagList.push(this.tagPosition);
+        this.tags += '\t';
       }
-    } else {
-      this.currentTag += char;
+    } else if (event.key === 'Backspace') {
+      if (this.tagList.length > 1 && this.tagPosition === this.tags.length) {
+        this.tags = this.tags.slice(0, this.tagList[this.tagList.length - 2]);
+        this.tagPosition = this.tags.length - 1;
+        this.tagList.pop();
+      }
     }
   }
+  public onKeyPress(event: KeyboardEvent): void {
+    if (this.currentTag === '') {
+      const inputChar = String.fromCharCode(event.charCode);
+      if (inputChar !== '@' && inputChar !== '#' && inputChar !== '\b') {
+        event.preventDefault();
+      } else {
+        this.currentTag = inputChar === '@' ? 'Author' : 'Content';
+      }
+    }
+  }
+  public search(event: Event): void {
+    if (this.currentTag === '') {
+      const inputChar = String.fromCharCode(this.tags[0]);
+      if (inputChar !== '@' && inputChar !== '#' && inputChar !== '\b') {
+        event.preventDefault();
+      } else {
+        this.currentTag = inputChar === '@' ? 'Author' : 'Content';
+      }
+    }
+    console.log(event)
+    const tag = this.tags.slice(0, this.tagList[this.tagList.length - 1]);
+    console.log(tag)
+  }
   public updateFeed(): void {
-    console.log(this.tags);
     if (this.startDate) {
       this.fluxPreference.period.start = this.startDate;
     }
