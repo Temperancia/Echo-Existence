@@ -59,7 +59,7 @@ export class FluxBoxComponent implements OnInit {
   constructor(private postService: PostService, private userService: UserService) { }
 
   ngOnInit() {
-    this.fluxPreference = JSON.parse(localStorage.getItem('fluxPreference'));
+    this.fluxPreference = this.postService.getFluxPreference();
   }
   public toggleFlux(flux: Flux): void {
     this.fluxPreference.flux[flux] = !this.fluxPreference.flux[flux];
