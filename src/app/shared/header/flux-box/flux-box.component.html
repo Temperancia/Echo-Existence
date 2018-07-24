@@ -44,13 +44,13 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <input class="d-none d-sm-block my-2" placeholder="Look for specific @author or #content" name="tags" [(ngModel)]="tags" (click)="show.tags = true" (input)="search($event)" (keyup)="onKeyUp($event)" (keypress)="onKeyPress($event)" (paste)="$event.preventDefault()"/>
+        <input class="d-none d-sm-block my-2" placeholder="Look for specific @author or #content" name="tags" [(ngModel)]="tags" (keyup)="onKeyUp($event)" (keypress)="onKeyPress($event)" (paste)="$event.preventDefault()"/>
         <input class="d-sm-none my-2" placeholder="@Author / #Content" [(ngModel)]="tags"/>
       </div>
     </div>
-    <div class="row" *ngIf="show.tags">
-      <div class="col-12">
-
+    <div class="row" *ngIf="show.authors">
+      <div class="col-12 author" *ngFor="let author of authors$ | async" (click)="addAuthor(author.fullName)">
+        {{author.fullName}}
       </div>
     </div>
     <div class="row">

@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DatepickerOptions } from 'ng2-datepicker';
 import { PostService } from '../../post.service';
+import { UserService } from '@app/user/user.service';
+import { User } from '@app/core/models/user';
 import { Flux } from '@app/core/enums/flux.enum';
 import { PostType } from '@app/core/enums/post-type.enum';
 import { yesterday, now } from '@app/core/core.settings';
@@ -18,7 +20,7 @@ export class FluxBoxComponent implements OnInit {
   tagList: number[] = [0];
   currentTag: string = '';
   tagPosition: number = 0;
-  foundTags$: Observable<string>;
+  authors$: Observable<User[]>;
   startCalendarOptions: DatepickerOptions = {
     displayFormat: 'MMM D[,] YYYY',
     useEmptyBarTitle: false,
@@ -49,12 +51,12 @@ export class FluxBoxComponent implements OnInit {
   outrage = PostType.Outrage;
   fluxPreference: any;
   show: any = {
-    tags: false
+    authors: false
   };
 
   @Output() hide = new EventEmitter<void>();
 
-  constructor(private postService: PostService) { }
+  constructor(private postService: PostService, private userService: UserService) { }
 
   ngOnInit() {
     this.fluxPreference = JSON.parse(localStorage.getItem('fluxPreference'));
@@ -68,19 +70,36 @@ export class FluxBoxComponent implements OnInit {
   public switchSort(sort): void {
     this.fluxPreference.sort = this.fluxPreference.sort === sort ? '' : sort;
   }
+  public addAuthor(name): void {
+    this.tags = this.tags.slice(0, this.tagList[this.tagList.length - 1])
+    + '@' + name;
+    console.log(this.tags);
+    this.validateTag();
+    this.show.authors = false;
+  }
+  public validateTag(): void {
+    this.currentTag = '';
+    this.tagPosition = this.tags.length;
+    this.tagList.push(this.tagPosition);
+    this.tags += '\t';
+  }
   public onKeyUp(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       if (this.currentTag !== '') {
-        this.currentTag = '';
-        this.tagPosition = this.tags.length;
-        this.tagList.push(this.tagPosition);
-        this.tags += '\t';
+        this.validateTag();
       }
     } else if (event.key === 'Backspace') {
       if (this.tagList.length > 1 && this.tagPosition === this.tags.length) {
         this.tags = this.tags.slice(0, this.tagList[this.tagList.length - 2]);
         this.tagPosition = this.tags.length - 1;
         this.tagList.pop();
+        this.currentTag = '';
+      }
+    } else if (this.currentTag === 'Author') {
+      const author = this.tags.slice(this.tagList[this.tagList.length - 1] + 1);
+      if (author !== '') {
+        this.authors$ = this.userService.getUsers(author);
+        this.authors$.subscribe(data => console.log(data));
       }
     }
   }
@@ -91,21 +110,11 @@ export class FluxBoxComponent implements OnInit {
         event.preventDefault();
       } else {
         this.currentTag = inputChar === '@' ? 'Author' : 'Content';
+        if (this.currentTag === 'Author') {
+          this.show.authors = true;
+        }
       }
     }
-  }
-  public search(event: Event): void {
-    if (this.currentTag === '') {
-      const inputChar = String.fromCharCode(this.tags[0]);
-      if (inputChar !== '@' && inputChar !== '#' && inputChar !== '\b') {
-        event.preventDefault();
-      } else {
-        this.currentTag = inputChar === '@' ? 'Author' : 'Content';
-      }
-    }
-    console.log(event)
-    const tag = this.tags.slice(0, this.tagList[this.tagList.length - 1]);
-    console.log(tag)
   }
   public updateFeed(): void {
     if (this.startDate) {

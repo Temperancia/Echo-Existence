@@ -5,9 +5,9 @@ import {
    debounceTime, distinctUntilChanged, switchMap, map, flatMap, tap
  ,  catchError } from 'rxjs/operators';
 
-import { Post } from './../core/models/post';
-import { getId, handleError, API_ENDPOINT, yesterday, now } from './../core/core.settings';
-import { Flux } from './../core/enums/flux.enum';
+import { Post } from '@app/core/models/post';
+import { getId, handleError, API_ENDPOINT, yesterday, now } from '@app/core/core.settings';
+import { Flux } from '@app/core/enums/flux.enum';
 
 @Injectable()
 export class PostService {
