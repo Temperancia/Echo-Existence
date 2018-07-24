@@ -50,6 +50,11 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl(url);
   }
 
+  public logout(): void {
+    this.authenticationService.logout();
+    this.router.navigateByUrl('/login');
+  }
+
   toggle(element: string): void {
     const state = this.toggles[element];
     for (const toggle in this.toggles) {

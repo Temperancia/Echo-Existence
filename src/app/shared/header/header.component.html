@@ -22,7 +22,12 @@
       <h2 class="col-md-2 d-none d-md-block p-2 m-0 text-center" (click)="navigate('/flux')">
         Flux
       </h2>
-      <div class="offset-3 col-3 offset-md-1 col-md-1">
+      <div class="col-md-1 d-none d-md-block">
+        <a (click)="logout()">
+          <img class="w-100" src="assets/img/logout.png" />
+        </a>
+      </div>
+      <div class="offset-3 col-3 offset-md-0 col-md-1">
         <a (click)="toggle('menu')">
           <img class="w-100" src="assets/img/megaphone.png">
         </a>
