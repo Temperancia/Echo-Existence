@@ -138,11 +138,15 @@ async function vote(voterId: string, postId: string, voteType: string, upvote: b
 
 async function findPostsFromFluxes(request: any, thisUserId: string): Promise<any> {
   let pipeline: any = {};
+  console.log(request)
   let filter: any = {
     originType: 'Flux',
     originName: {$in: request.origin.split(' ')},
-    postType: {$in: request.postType.split(' ')},
+    postType: {$in: request.postType.split(' ')}
   };
+  if (request.tags !== '') {
+    
+  }
   let sort: any = {};
   if (request.sort === 'Popular') {
     sort['reputation.upvotes'] = -1;

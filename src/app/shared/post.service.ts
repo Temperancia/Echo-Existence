@@ -12,7 +12,7 @@ import { Flux } from '@app/core/enums/flux.enum';
 @Injectable()
 export class PostService {
   feed = new BehaviorSubject<string>(null);
-  fluxPreference = {
+  fluxPreference: any = {
     flux: {
       Tendance: true,
       Friends: true,
@@ -26,6 +26,7 @@ export class PostService {
       Outrage: true
     },
     sort: '',
+    tags: '',
     period: {
       start: yesterday,
       end: now
@@ -60,16 +61,14 @@ export class PostService {
   }
   getFluxPreference(): string {
     let fluxPreference = JSON.parse(localStorage.getItem('fluxPreference'))
-    if (!fluxPreference) {
-      fluxPreference = this.fluxPreference;
-    }
-    return fluxPreference;
+    return fluxPreference ? fluxPreference : this.fluxPreference;
   }
   updateFeed(fluxPreference: any = this.getFluxPreference()) {
     const request =
     'origin=' + Object.keys(fluxPreference.flux).filter(flux => fluxPreference.flux[flux]).join('+')
     + '&postType=' + Object.keys(fluxPreference.type).filter(type => fluxPreference.type[type]).join('+')
     + '&sort=' + fluxPreference.sort
+    + '&tags=' + fluxPreference.tags
     + '&startDate=' + fluxPreference.period.start
     + '&endDate=' + fluxPreference.period.end;
     this.feed.next(request);
