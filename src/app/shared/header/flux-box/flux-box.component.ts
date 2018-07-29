@@ -92,6 +92,8 @@ export class FluxBoxComponent implements OnInit {
         this.tagList.pop();
         this.tags = of(this.fluxPreference.tags.split('\u200C', this.tagList.length - 1));
         this.currentTag = '';
+      } else if (this.fluxPreference.tags.length === 0) {
+        this.currentTag = '';
       }
     } else if (this.currentTag === 'Author') {
       const author = this.fluxPreference.tags.slice(this.tagList[this.tagList.length - 1] + 1);

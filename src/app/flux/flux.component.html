@@ -59,24 +59,24 @@
           <img class="d-block mx-auto" src="assets/img/arrow_up.svg" (click)="togglePostElement('postVote', post._id)" *ngIf="post.author._id !== id && showPostElement('postVote', post._id)">
           <div class="card-footer" *ngIf="showPostElement('postVote', post._id)">
             <div class="row" *ngIf="post.author._id !== id && !post.vote">
-              <div class="col-6" *ngFor="let positiveVote of postReplies[post.postType].positive">
+              <div class="col-12" *ngFor="let positiveVote of postReplies[post.postType].positive">
                 <button class="w-100 h-75 p-2 my-2 green-bg" (click)="upvote(post._id, postReplies[post.postType].positive.indexOf(positiveVote))">
                   {{positiveVote}}
                 </button>
               </div>
-              <div class="col-6" *ngFor="let negativeVote of postReplies[post.postType].negative">
+              <div class="col-12" *ngFor="let negativeVote of postReplies[post.postType].negative">
                 <button class="w-100 h-75 p-2 my-2 red-bg" (click)="downvote(post._id, postReplies[post.postType].negative.indexOf(negativeVote))">
                   {{negativeVote}}
                 </button>
               </div>
             </div>
             <div class="row" *ngIf="post.vote">
-              <div class="offset-3 col-6" *ngIf="post.vote.positive">
+              <div class="col-12" *ngIf="post.vote.vote === 'positive'">
                 <button class="w-100 h-75 p-2 my-2 green-bg" (click)="cancelVote(post._id)">
                   {{postReplies[post.postType].positive[post.vote.voteType]}}
                 </button>
               </div>
-              <div class="offset-3 col-6" *ngIf="!post.vote.positive">
+              <div class="col-12" *ngIf="post.vote.vote === 'negative'">
                 <button class="w-100 h-75 p-2 my-2 red-bg" (click)="cancelVote(post._id)">
                   {{postReplies[post.postType].negative[post.vote.voteType]}}
                 </button>

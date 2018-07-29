@@ -35,6 +35,10 @@ authentication.post('/user/create', async (req, res) => {
     tags: []
   };
   newUser.trustReputation = [];
+  newUser.history = {
+    flux: [],
+    trusts: []
+  };
   newUser.friends = [];
   newUser.friendsRequested = [];
   newUser.friendsRequesting = [];

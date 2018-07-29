@@ -22,7 +22,7 @@ const postSchema = new Schema({
   },
   votes: [{
     voter: Schema.Types.ObjectId,
-    positive: Boolean,
+    vote: String,
     voteType: Number
   }],
   reports: Number,

@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { Types } from 'mongoose';
-import { Post } from './../models/post';
-import { User } from './../models/user';
+import { Post } from '../models/post';
+import { User } from '../models/user';
+import { postReplies } from '../src/environments/environment';
 
 let posting = Router();
 
@@ -65,12 +66,12 @@ posting.get('/post/:postId/get', async (req, res) => {
 });
 
 posting.get('/post/:postId/upvote', async (req, res) => {
-  const error = await vote(req.decoded.id, req.params.postId, req.query.type, true)
+  const error = await vote(req.decoded.id, req.params.postId, req.query.type, 'positive')
   return error ? res.status(500).json(error) : res.json({});
 });
 
 posting.get('/post/:postId/downvote', async (req, res) => {
-  const error = await vote(req.decoded.id, req.params.postId, req.query.type, false);
+  const error = await vote(req.decoded.id, req.params.postId, req.query.type, 'negative');
   return error ? res.status(500).json(error) : res.json({});
 });
 
@@ -84,12 +85,11 @@ posting.get('/post/:postId/cancel', async (req, res) => {
     if (!vote) {
       return res.status(500).json('Logical error');
     }
-    console.log(vote);
     await Post.findByIdAndUpdate(postId, {
       $pull: {votes: {
         voter: Types.ObjectId(thisUserId)
       }},
-      $inc: vote.positive
+      $inc: vote.vote === 'positive'
       ? {'reputation.upvotes': -1}
       : {'reputation.downvotes': -1}
     });
@@ -100,10 +100,9 @@ posting.get('/post/:postId/cancel', async (req, res) => {
   }
 });
 
-async function vote(voterId: string, postId: string, voteType: string, upvote: boolean): Promise<string> {
+async function vote(voterId: string, postId: string, voteType: string, vote: string): Promise<string> {
   try {
-    const post = await Post.findById(postId)
-    .select('originType originName author reputation votes');
+    const post = await Post.findById(postId);
     if (post.author.equals(voterId)) {
       throw 'Cannot upvote your own post';
     }
@@ -113,16 +112,20 @@ async function vote(voterId: string, postId: string, voteType: string, upvote: b
     await Post.findByIdAndUpdate(postId, {
       $push: {votes: {
         voter: Types.ObjectId(voterId),
-        positive: upvote,
+        vote: vote,
         voteType: Number(voteType)
       }},
-      $inc: upvote
+      $inc: vote === 'positive'
       ? {'reputation.upvotes': 1}
       : {'reputation.downvotes': 1}
     });
     if (post.originType === 'Flux') {
       await User.findByIdAndUpdate(post.author, {
         $set: {'reputation.refresh': true}
+      });
+      const voter = await User.findByIdAndUpdate(voterId);
+      await User.findByIdAndUpdate(voterId, {
+        $push: {'history.flux': postReplies[post.postType][vote][Number(voteType)]}
       });
     } else {
       console.log('refresh trust rep on next', post.author, post.originName)
@@ -145,7 +148,7 @@ async function findPostsFromFluxes(request: any, thisUserId: string): Promise<an
     postType: {$in: request.postType.split(' ')}
   };
   if (request.tags !== '') {
-    
+
   }
   let sort: any = {};
   if (request.sort === 'Popular') {

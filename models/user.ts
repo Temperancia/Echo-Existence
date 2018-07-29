@@ -32,6 +32,10 @@ const userSchema = new Schema({
     score: Number,
     rank: Number
   }],
+  history: {
+    flux: [String],
+    trusts: [String]
+  },
   birth: Date,
   friends: [{
     type: Schema.Types.ObjectId,

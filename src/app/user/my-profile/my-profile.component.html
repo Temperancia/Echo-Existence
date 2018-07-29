@@ -1,47 +1,121 @@
 <!DOCTYPE html>
 <div class="container-fluid content">
   <app-header></app-header>
-  <div class="row mb-3">
-    <div class="col-3 py-2 border border-light text-center" (click)="toggle('me')">
+  <div class="row">
+    <div class="col-3 py-2 border border-light text-center" [ngClass]="toggles.me ? 'active' : ''" (click)="toggle('me')">
       Me
     </div>
-    <div class="col-3 py-2 border border-light text-center" (click)="toggle('friends')">
+    <div class="col-3 py-2 border border-light text-center" [ngClass]="toggles.friends ? 'active' : ''" (click)="toggle('friends')">
       Friends
     </div>
-    <div class="col-3 py-2 border border-light text-center" (click)="toggle('posts')">
+    <div class="col-3 py-2 border border-light text-center" [ngClass]="toggles.posts ? 'active' : ''" (click)="toggle('posts')">
       Posts
     </div>
-    <div class="col-3 py-2 border border-light text-center" (click)="toggle('history')">
+    <div class="col-3 py-2 border border-light text-center" [ngClass]="toggles.history ? 'active' : ''" (click)="toggle('history')">
       History
     </div>
   </div>
-  <div class="row" *ngIf="toggles.me">
-    <div class="col-4">
+  <div class="row mt-3" *ngIf="toggles.me">
+    <div class="col-12 col-md-4">
       <img class="w-100" src="/assets/img/profile.png">
     </div>
-    <div class="col-8">
-      <div class="card">
-        <div class="card-body">
-          <div class="card">{{user?.fullName}}</div>
-          <div>Reputation : rank {{user?.reputation.rank}}</div>
-          <div>Reputation of last 10 posts</div>
-          <div>Followed by XXX</div>
-          <div>Live at *region*/*country*</div>
+    <div class="col-12 col-md-8">
+      <div class="container">
+        <div class="row panel">
+          <div class="col-12 text-center">
+            <h2>{{user?.fullName}}</h2>
+          </div>
+          <div class="col-12 text-center">
+            <h3>Reputation {{user?.reputation.rank}}</h3>
+          </div>
+        </div>
+        <div class="row py-3">
+          <div class="col-12 text-center">
+            <h2><u>Parts of you</u></h2>
+          </div>
+        </div>
+        <div class="row panel">
+          <div class="col-12 subpanel">
+            <h5>Places that count</h5>
+            <ul>
+              <li>
+                Tokyo suburb My home
+              </li>
+              <li>
+                Tokyo city My job
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row panel">
+          <div class="col-12 subpanel">
+            <h5>Birth</h5>
+            <div>
+              04/07/1995
+            </div>
+          </div>
+          <div class="col-12 subpanel">
+            <h5>Hence your age</h5>
+            <div>
+              23
+            </div>
+          </div>
+        </div>
+        <div class="row panel">
+          <div class="col-12 subpanel">
+            <h5>Gender</h5>
+            <div>
+              Male
+            </div>
+          </div>
+        </div>
+        <div class="row panel">
+          <div class="col-12 subpanel">
+            <h5>What you feel like doing</h5>
+            <ul>
+              <li>
+                Nothing
+              </li>
+              <li>
+                Nothing else
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="row" *ngIf="toggles.friends">
-    <div class="col-3 friend-list">
+  <div class="row mt-3" *ngIf="toggles.friends">
+    <div class="col-12 text-center" *ngIf="friends.length === 0">
+      No friends yet
+    </div>
+    <div class="col-12 friend-list" *ngIf="friends.length !== 0">
       <div class="text-center" *ngFor="let friend of friends" [style.background-color]="getReputation(friend)">
         <h2>{{friend.name}}</h2><img class="w-50" src="/assets/img/profile.png">
         <h5>{{friend.reputation}}</h5>
       </div>
     </div>
   </div>
-  <div class="row" *ngIf="toggles.posts">
-    <div class="col-5">
+  <div class="row mt-3" *ngIf="toggles.posts">
+    <div class="col-12">
       <app-feed-my-profile></app-feed-my-profile>
+    </div>
+  </div>
+  <div *ngIf="toggles.history">
+    <div class="row">
+      <div class="col-6 py-2 border border-light text-center" [ngClass]="fluxHistory ? 'active' : ''" (click)="fluxHistory = true; trustHistory = false;">
+        Flux
+      </div>
+      <div class="col-6 py-2 border border-light text-center" [ngClass]="trustHistory ? 'active' : ''" (click)="fluxHistory = false; trustHistory = true;">
+        Trusts
+      </div>
+    </div>
+    <div class="row" *ngIf="fluxHistory">
+      <div class="col-12">
+        <div *ngFor="let log of user.history.flux">
+          {{log}}
+        </div>
+      </div>
     </div>
   </div>
   <app-footer></app-footer>

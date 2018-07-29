@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from './../../core/models/user';
+import {User} from '@app/core/models/user';
 import {UserService} from './../user.service';
 
 @Component({
   selector: 'app-my-profile',
   templateUrl: 'my-profile.component.html',
-  styles: []
+  styleUrls: ['my-profile.component.scss']
 })
 export class MyProfileComponent implements OnInit {
   public friends: User[];
@@ -16,6 +16,8 @@ export class MyProfileComponent implements OnInit {
     posts: false,
     history: false
   };
+  public fluxHistory = true;
+  public trustHistory = false;
   constructor(private userService: UserService) { }
   ngOnInit() {
     this.getFriends();

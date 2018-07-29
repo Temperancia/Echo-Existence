@@ -17,6 +17,9 @@ async function findUsers(thisUserId, name = undefined) {
   }
   return await User.find(options)
   .where('_id').ne(thisUserId)
+  .sort({
+    'reputation.rank': -1
+  })
   .select('fullName type')
   .lean();
 }

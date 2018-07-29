@@ -45,7 +45,7 @@
     <div class="row">
       <div class="col-12 tagArea">
         <input class="d-none d-sm-block my-2" placeholder="Look for specific @author or #content" name="tags" [(ngModel)]="fluxPreference.tags" (keyup)="onKeyUp($event)" (keypress)="onKeyPress($event)" (paste)="$event.preventDefault()">
-        <input class="d-sm-none my-2" placeholder="@Author / #Content" [(ngModel)]="tags"/>
+        <input class="d-sm-none my-2" placeholder="@Author / #Content"  name="tags" [(ngModel)]="fluxPreference.tags" (keyup)="onKeyUp($event)" (keypress)="onKeyPress($event)" (paste)="$event.preventDefault()"/>
         <div class="tags">
           <span class="tag" *ngFor="let tag of tags | async">
             {{tag}}
