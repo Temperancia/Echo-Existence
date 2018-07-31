@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { trigger, style, transition, animate, group } from '@angular/animations';
 import { PostService } from './../../post.service';
@@ -48,11 +48,17 @@ export class PostBoxComponent implements OnInit {
   show: any = {
     postTypes: false
   };
+
+  @Output() hide = new EventEmitter<void>();
+
   constructor(private router: Router, private postService: PostService) {
   }
   ngOnInit() {
     this.currentPost = new Post;
     this.randomCatchy = this.pickCatchy();
+  }
+  close(): void {
+    this.hide.emit();
   }
   pickCatchy(): string {
     const random = Math.ceil(Math.random() * this.randomCatchyPool.length);

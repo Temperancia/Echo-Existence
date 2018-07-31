@@ -1,9 +1,14 @@
 .post-box {
+  position: relative;
   border: 1px lightgrey solid;
   textarea {
     position: relative;
     height: 200px;
     resize: none;
+  }
+  .close {
+    position: absolute;
+    top: 10px; right: 10px;
   }
   .show-emojis {
     position: absolute;

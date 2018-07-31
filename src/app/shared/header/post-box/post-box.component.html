@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<div class="container-fluid post-box my-2 p-1" [@itemAnim]>
+<div class="container post-box my-2" [@itemAnim]>
   <!--<button type="button" (click)="emojis.show()">Emojis</button>-->
   <div class="row">
-    <div class="col-12">
+    <div class="offset-1 col-10">
       <h2 class="text-center catchy">
         {{randomCatchy}}
       </h2>
+    </div>
+    <div class="close" (click)="close()">
+      x
     </div>
   </div>
   <div class="row p-3">
@@ -52,6 +55,6 @@
       <button class="w-100" (click)="post(postType.Outrage)">Outrage</button>
     </div>
   </div>
-  <app-emojis ref-emojis class='emojis' (onEmoji)='onEmoji($event)'></app-emojis>
+  <app-emojis ref-emojis class="emojis" (onEmoji)="onEmoji($event)"></app-emojis>
 
 </div>

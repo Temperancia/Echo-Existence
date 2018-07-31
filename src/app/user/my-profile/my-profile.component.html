@@ -2,20 +2,20 @@
 <div class="container-fluid content">
   <app-header></app-header>
   <div class="row">
-    <div class="col-3 py-2 border border-light text-center" [ngClass]="toggles.me ? 'active' : ''" (click)="toggle('me')">
+    <div class="col-3 py-2 border border-light text-center" [ngClass]="currentMenu === 'me' ? 'active' : ''" (click)="switchMenu('me')">
       Me
     </div>
-    <div class="col-3 py-2 border border-light text-center" [ngClass]="toggles.friends ? 'active' : ''" (click)="toggle('friends')">
+    <div class="col-3 py-2 border border-light text-center" [ngClass]="currentMenu === 'friends' ? 'active' : ''" (click)="switchMenu('friends')">
       Friends
     </div>
-    <div class="col-3 py-2 border border-light text-center" [ngClass]="toggles.posts ? 'active' : ''" (click)="toggle('posts')">
+    <div class="col-3 py-2 border border-light text-center" [ngClass]="currentMenu === 'posts' ? 'active' : ''" (click)="switchMenu('posts')">
       Posts
     </div>
-    <div class="col-3 py-2 border border-light text-center" [ngClass]="toggles.history ? 'active' : ''" (click)="toggle('history')">
+    <div class="col-3 py-2 border border-light text-center" [ngClass]="currentMenu === 'history' ? 'active' : ''" (click)="switchMenu('history')">
       History
     </div>
   </div>
-  <div class="row mt-3" *ngIf="toggles.me">
+  <div class="row mt-3" *ngIf="currentMenu === 'me'">
     <div class="col-12 col-md-4">
       <img class="w-100" src="/assets/img/profile.png">
     </div>
@@ -85,7 +85,7 @@
       </div>
     </div>
   </div>
-  <div class="row mt-3" *ngIf="toggles.friends">
+  <div class="row mt-3" *ngIf="currentMenu === 'friends'">
     <div class="col-12 text-center" *ngIf="friends.length === 0">
       No friends yet
     </div>
@@ -96,12 +96,12 @@
       </div>
     </div>
   </div>
-  <div class="row mt-3" *ngIf="toggles.posts">
+  <div class="row mt-3" *ngIf="currentMenu === 'posts'">
     <div class="col-12">
       <app-feed-my-profile></app-feed-my-profile>
     </div>
   </div>
-  <div *ngIf="toggles.history">
+  <div *ngIf="currentMenu === 'history'">
     <div class="row">
       <div class="col-6 py-2 border border-light text-center" [ngClass]="fluxHistory ? 'active' : ''" (click)="fluxHistory = true; trustHistory = false;">
         Flux
