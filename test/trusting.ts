@@ -1,6 +1,6 @@
 import { login, create } from './authentication';
 import { request, userA, userB, trustA } from './config';
-import { Trust } from '../models/Trust';
+import { Trust } from '../models/trust';
 
 export async function createTrust(owner, trust): Promise<any> {
   const res = await request.post('/api/trusting/trusts/create')
@@ -82,5 +82,5 @@ describe('Trusting : API tests', async () => {
     });
   });
   */
-  
+
 });

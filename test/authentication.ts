@@ -1,4 +1,4 @@
-import { User } from './../models/User';
+import { User } from './../models/user';
 import { request, userA, userB } from './config';
 
 export async function create(user): Promise<any> {
