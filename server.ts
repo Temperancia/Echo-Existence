@@ -27,7 +27,7 @@ require('./routines');
 const app = express();
 app.use(helmet());
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 8080;
 const DIST_FOLDER = join(process.cwd(), 'dist');
 
 const win = domino.createWindow();
@@ -48,7 +48,7 @@ app.engine('html', ngExpressEngine({
 }));
 
 app.set('view engine', 'html');
-app.set('views', join(DIST_FOLDER, 'echo-universe/main'));
+app.set('views', join(DIST_FOLDER, 'echo-universe'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -58,7 +58,7 @@ app.use(bodyParser.json());
 */
 app.use('/api', api);
 // Server static files from /browser
-app.get('*.*', express.static(join(DIST_FOLDER, 'echo-universe/main'), {
+app.get('*.*', express.static(join(DIST_FOLDER, 'echo-universe'), {
   maxAge: '1y'
 }));
 
