@@ -8,7 +8,7 @@ import { Flux } from '@app/core/enums/flux.enum';
 import { PostType } from '@app/core/enums/post-type.enum';
 import { Post } from '@app/core/models/post';
 import { getId, refresh } from '@app/core/core.settings';
-import { postReplies } from '@env/environment';
+import { postReplies } from '../../environments/environment';
 
 @Component({
   selector: 'flux-component',
