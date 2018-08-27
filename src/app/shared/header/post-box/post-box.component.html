@@ -2,10 +2,13 @@
 <div class="container post-box my-2 p-1" [@itemAnim]>
   <!--<button type="button" (click)="emojis.show()">Emojis</button>-->
   <div class="row">
-    <div class="col-12">
+    <div class="offset-1 col-10">
       <h2 class="text-center catchy">
         {{randomCatchy}}
       </h2>
+    </div>
+    <div class="close" (click)="close()">
+      x
     </div>
   </div>
   <div class="row p-3">
@@ -52,5 +55,10 @@
       <button class="w-100" (click)="post(postType.Outrage)">Outrage</button>
     </div>
   </div>
+<<<<<<< HEAD
   <app-emojis ref-emojis class='emojis' (onEmoji)='onEmoji($event)'></app-emojis>
+=======
+  <app-emojis ref-emojis class="emojis" (onEmoji)="onEmoji($event)"></app-emojis>
+
+>>>>>>> ffe648ee124a0cbad5f555872c1c1a6d83ebc35a
 </div>
