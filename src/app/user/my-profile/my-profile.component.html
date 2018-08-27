@@ -2,16 +2,16 @@
 <div class="container-fluid content">
   <app-header></app-header>
   <div class="row">
-    <div class="col-3 py-2 border border-light text-center" [ngClass]="toggles.me ? 'active' : ''" (click)="toggle('me')">
+    <div class="col-3 py-2 border border-light text-center" [ngClass]="toggles.me ? 'active' : 'inactive'" (click)="toggle('me')">
       Me
     </div>
-    <div class="col-3 py-2 border border-light text-center" [ngClass]="toggles.friends ? 'active' : ''" (click)="toggle('friends')">
+    <div class="col-3 py-2 border border-light text-center" [ngClass]="toggles.friends ? 'active' : 'inactive'" (click)="toggle('friends')">
       Friends
     </div>
-    <div class="col-3 py-2 border border-light text-center" [ngClass]="toggles.posts ? 'active' : ''" (click)="toggle('posts')">
+    <div class="col-3 py-2 border border-light text-center" [ngClass]="toggles.posts ? 'active' : 'inactive'" (click)="toggle('posts')">
       Posts
     </div>
-    <div class="col-3 py-2 border border-light text-center" [ngClass]="toggles.history ? 'active' : ''" (click)="toggle('history')">
+    <div class="col-3 py-2 border border-light text-center" [ngClass]="toggles.history ? 'active' : 'inactive'" (click)="toggle('history')">
       History
     </div>
   </div>

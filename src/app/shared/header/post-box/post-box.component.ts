@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { trigger, style, transition, animate, group } from '@angular/animations';
 import { PostService } from './../../post.service';
-import { Post } from './../../../core/models/post';
-import { Flux } from './../../../core/enums/flux.enum';
-import { PostType } from './../../../core/enums/post-type.enum';
-import { refresh } from './../../../core/core.settings';
+import { Post } from '@app/core/models/post';
+import { Flux } from '@app/core/enums/flux.enum';
+import { PostType } from '@app/core/enums/post-type.enum';
+import { refresh } from '@app/core/core.settings';
 
 @Component({
   selector: 'app-post-box',
