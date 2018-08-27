@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "paths": {
       "@app/*": ["src/app/*"],
       "@env/*": ["src/environments/*"]
@@ -21,13 +20,5 @@
       "es2017",
       "dom"
     ]
-  },
-  "include": [
-    "routes/**/*",
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
-  ]
+  }
 }
