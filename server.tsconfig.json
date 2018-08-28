@@ -1,6 +1,11 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@env/*": ["src/environments/*"]
+    },
     "outDir": "./dist",
     "sourceMap": true,
     "declaration": false,
