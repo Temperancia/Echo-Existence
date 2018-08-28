@@ -1,7 +1,7 @@
 import { Observable ,  of } from 'rxjs';
 import { Router } from '@angular/router';
 
-export const API_ENDPOINT='http://142.93.99.92:8080/api/';
+export const API_ENDPOINT='http://echo-life.com:8080/api/';
 export const now: Date = new Date(Date.now());
 export let yesterday: Date = new Date();
 yesterday.setDate(yesterday.getDate() - 1);

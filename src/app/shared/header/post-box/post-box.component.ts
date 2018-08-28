@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { trigger, style, transition, animate, group } from '@angular/animations';
-import { PostService } from './../../post.service';
+import { PostService } from '../../post.service';
 import { Post } from '@app/core/models/post';
 import { Flux } from '@app/core/enums/flux.enum';
 import { PostType } from '@app/core/enums/post-type.enum';

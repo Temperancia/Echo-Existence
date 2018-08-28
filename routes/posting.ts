@@ -45,8 +45,10 @@ posting.get('/posts/get', async (req, res) => {
     } else if (user) {
       posts = await findPostsFromUser(user);
     }
+    console.log(posts);
     return res.json(posts);
   } catch(err) {
+    console.log('ok');
     console.log(err);
     return res.status(500).json('Error while finding posts');
   }
