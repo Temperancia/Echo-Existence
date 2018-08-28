@@ -36,6 +36,7 @@
     "dateformat": "^3.0.3",
     "helmet": "^3.12.1",
     "jsonwebtoken": "^8.3.0",
+    "localstorage-polyfill": "^1.0.1",
     "mongoose": "^5.1.6",
     "ng2-datepicker": "^3.1.0",
     "ngx-page-scroll": "^5.0.0",
