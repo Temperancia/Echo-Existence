@@ -1,5 +1,7 @@
 import {NgModule} from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { TransferHttpCacheModule } from '@nguniversal/common';
 import { routing } from './core.routing';
 
 import { SharedModule } from './../shared/shared.module';
@@ -19,7 +21,9 @@ import { CoreComponent } from './core.component';
     CoreComponent,
   ],
   imports: [
+    BrowserModule.withServerTransition({appId: 'echo'}),
     routing,
+    TransferHttpCacheModule,
     SharedModule,
     AuthenticationModule,
     UserModule,

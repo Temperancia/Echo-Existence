@@ -37,11 +37,11 @@ global['navigator'] = win.navigator;
 global['CSS'] = undefined;
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
-const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('./server/main');
+const {CoreServerModuleNgFactory, LAZY_MODULE_MAP} = require('./server/main');
 
 // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
 app.engine('html', ngExpressEngine({
-  bootstrap: AppServerModuleNgFactory,
+  bootstrap: CoreServerModuleNgFactory,
   providers: [
     provideModuleMap(LAZY_MODULE_MAP)
   ]

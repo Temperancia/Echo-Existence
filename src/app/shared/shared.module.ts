@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule }  from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxPageScrollModule } from 'ngx-page-scroll';
+//import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { NgDatepickerModule } from 'ng2-datepicker';
 
 import { PostService } from './post.service';
@@ -34,7 +34,7 @@ import { FooterComponent } from './footer/footer.component';
     RouterModule,
     BrowserModule,
     FormsModule,
-    NgxPageScrollModule,
+  //  NgxPageScrollModule,
     BrowserAnimationsModule,
     BlankComponent,
     HeaderComponent,
@@ -46,7 +46,7 @@ import { FooterComponent } from './footer/footer.component';
     RouterModule,
     HttpClientModule,
     FormsModule,
-    NgxPageScrollModule,
+  //  NgxPageScrollModule,
     NgDatepickerModule,
     BrowserAnimationsModule
   ],
